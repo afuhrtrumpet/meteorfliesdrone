@@ -1,7 +1,15 @@
 Template.buttons.options = [
 {
+	name: "Clockwise",
+	icon: "fa-rotate-left"
+},
+{
 	name: "Forward",
 	icon: "fa-chevron-circle-up"
+},
+{
+	name: "Counterclockwise",
+	icon: "fa-rotate-right"
 },
 {
 	name: "Left",
@@ -15,14 +23,6 @@ Template.buttons.options = [
 	name: "Right",
 	icon: "fa-chevron-circle-right"
 },
-{
-	name: "Clockwise",
-	icon: "CurvedArrowRightDown.svg"
-},
-{
-	name: "Counterclockwise",
-	icon: "CurvedArrowRightDown.svg"
-}
 ];
 
 //Placeholder, remove once we have actual data
