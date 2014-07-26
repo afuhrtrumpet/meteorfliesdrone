@@ -1,3 +1,9 @@
 .meteor/local
 .meteor/meteorite
 *~
+
+# Go home Webstorm!
+.idea/
+
+# Stevie Jobs!!!
+.DS_Store
