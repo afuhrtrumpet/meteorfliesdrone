@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "ar-drone": {
+      "version": "0.3.2",
+      "dependencies": {
+        "buffy": {
+          "version": "0.0.4"
+        },
+        "simple-debug": {
+          "version": "1.1.2"
+        }
+      }
+    }
+  }
+}
