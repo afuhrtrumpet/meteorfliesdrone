@@ -1,27 +1,27 @@
 Template.buttons.options = [
 {
 	name: "Forward",
-	icon: "forward.png"
+	icon: "fa-chevron-circle-up"
 },
 {
 	name: "Left",
-	icon: "left.png"
+	icon: "fa-chevron-circle-left"
 },
 {
 	name: "Back",
-	icon: "back.png"
+	icon: "fa-chevron-circle-down"
 },
 {
 	name: "Right",
-	icon: "right.png"
+	icon: "fa-chevron-circle-right"
 },
 {
 	name: "Clockwise",
-	icon: "clockwise.png"
+	icon: "CurvedArrowRightDown.svg"
 },
 {
 	name: "Counterclockwise",
-	icon: "counterclockwise.png"
+	icon: "CurvedArrowRightDown.svg"
 }
 ];
 
