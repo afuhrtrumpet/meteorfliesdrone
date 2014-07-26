@@ -3,11 +3,33 @@
 </head>
 
 <body>
-  {{> hello}}
+	{{> nav}}
+	<div class="row">
+		<div class="medium-8 columns">
+			{{> buttons}}
+		</div>
+	</div>
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="buttons">
+	{{#each commands}}
+	<div class="medium-block-grid-4">
+		<li>
+		<img src="{{img}}">
+		</li>
+	</div>
+	{{/each}}
 </template>
+
+<template name="nav">
+<nav class="top-bar" data-topbar>
+	<ul class="title-area">
+		<li class="name">
+		<h1><a href="#">Meteor Drone App</a></h1>
+		</li>
+		<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+		<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+	</ul>
+</nav>
+</template>
+
