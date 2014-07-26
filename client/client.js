@@ -1,26 +1,26 @@
 Template.buttons.commands = [
 {
 	name: "Forward",
-	img: "forward.png"
+	icon: "fa-chevron-circle-up"
 },
 {
 	name: "Left",
-	img: "left.png"
+	icon: "fa-chevron-circle-left"
 },
 {
 	name: "Back",
-	img: "back.png"
+	icon: "fa-chevron-circle-down"
 },
 {
 	name: "Right",
-	img: "right.png"
+	icon: "fa-chevron-circle-right"
 },
 {
 	name: "Clockwise",
-	img: "clockwise.png"
+	icon: "CurvedArrowRightDown.svg"
 },
 {
 	name: "Counterclockwise",
-	img: "counterclockwise.png"
+	icon: "CurvedArrowRightDown.svg"
 }
 ];
