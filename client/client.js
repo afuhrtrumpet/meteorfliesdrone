@@ -1,26 +1,33 @@
-Template.buttons.commands = [
+Template.buttons.options = [
 {
 	name: "Forward",
-	img: "forward.png"
+	icon: "forward.png"
 },
 {
 	name: "Left",
-	img: "left.png"
+	icon: "left.png"
 },
 {
 	name: "Back",
-	img: "back.png"
+	icon: "back.png"
 },
 {
 	name: "Right",
-	img: "right.png"
+	icon: "right.png"
 },
 {
 	name: "Clockwise",
-	img: "clockwise.png"
+	icon: "clockwise.png"
 },
 {
 	name: "Counterclockwise",
-	img: "counterclockwise.png"
+	icon: "counterclockwise.png"
 }
+];
+
+//Placeholder, remove once we have actual data
+Template.commandList.commands = [
+	"Back 5 seconds 0.5 speed",
+	"Front 2 seconds .75 speed",
+	"Left 3 seconds .1 speed"
 ];

@@ -1,1 +1,17 @@
 /* CSS declarations go here */
+.commandList {
+	border: 1px solid black;
+	width: 100%;
+}
+
+.commandList li:nth-child(odd) {
+	background-color: #AAA;
+}
+
+.commandList li:nth-child(even) {
+	background-color: #888;
+}
+
+.row .columns {
+	padding: 0;
+}
