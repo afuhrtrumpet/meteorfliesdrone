@@ -7,6 +7,6 @@ standard-app-packages
 autopublish
 insecure
 ar-drone
-foundation
 font-awesome
 sugar
+bootstrap-3
