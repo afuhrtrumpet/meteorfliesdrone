@@ -1,6 +1,7 @@
 {
   "packages": {
     "foundation": {},
-    "font-awesome": {}
+    "font-awesome": {},
+    "sugar": {}
   }
 }
