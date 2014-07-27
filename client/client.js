@@ -47,5 +47,5 @@ Template.commandList.tickNow = function() {
 }
 
 Template.commandList.username = function(userId) {
-	return Meteor.users.findOne(userId).emails[0];
+	return Meteor.user().username;
 };

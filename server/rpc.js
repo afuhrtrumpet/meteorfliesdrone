@@ -14,7 +14,7 @@ Meteor.startup(function () {
             var o = {
                 time: new Date().getTime(),
                 command: name,
-								userId: userId
+								userId: Meteor.userId()
             };
 
 //            Commands.insert(o);
