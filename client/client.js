@@ -19,12 +19,17 @@ var graphData = {
 var barChart;
 
 Deps.autorun(function() {
+	var mode = Aux.findOne("Mode");
+	$('#barGraph').attr('hidden', !mode || mode.name != "Democracy");
 	var votes = Votes.find().fetch();
 	if (barChart) {
-		for (var i in votes) {
-			barChart.datasets[0].bars[graphData.labels.indexOf(votes[i].name)].value = votes[i].vote;
-		}
-		barChart.update();
+		//if ($("barGraph").length == 0) barChart = undefined;
+		//else {
+			for (var i in votes) {
+				barChart.datasets[0].bars[graphData.labels.indexOf(votes[i].name)].value = votes[i].vote;
+			}
+			barChart.update();
+		//}
 	}
 	else if ($("#barGraph").length > 0 && !barChart) {
 		console.log(graphData);
