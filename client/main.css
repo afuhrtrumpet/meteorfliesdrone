@@ -1,5 +1,6 @@
 body {
-	background: #87CEEB url('images/background.jpg') no-repeat fixed center;
+	background: #87CEEB url('images/background.jpg') no-repeat;
+	background-size: 100%;
 }
 
 .navbar {

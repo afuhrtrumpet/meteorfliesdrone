@@ -9,13 +9,13 @@ var pubnub = Meteor.require("pubnub").init({
 Meteor.startup(function () {
     Meteor.methods({
 
-        pressButton : function(name) {
+        pressButton : function(name, userId) {
 
             Votes.update({name:name},{$inc:{vote:1}});
             var o = {
                 time: new Date().getTime(),
                 command: name,
-                userId: Meteor.userId()
+                userId: userId
             };
 
             console.log(name);

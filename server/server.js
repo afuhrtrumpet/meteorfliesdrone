@@ -46,6 +46,7 @@ if (mode == ModeEnum.DEFAULT){
 			Aux.upsert({_id:'currentCommand'}, {$set:{current:currentCommand ? currentCommand._id: ""}});
 		} else {
 			Meteor.call('stop');
+			Aux.upsert({_id:'currentCommand'}, {$set:{current:""}});
 		}
 
   }
@@ -76,6 +77,7 @@ if (mode == ModeEnum.DEFAULT){
   console.log(newCommands.length);
   if(newCommands.length < 1) {
     Meteor.call('stop');
+		Aux.upsert({_id:'currentCommand'}, {$set:{current:""}});
   }
   else {
    var commands = {}
@@ -109,6 +111,7 @@ if (mode == ModeEnum.DEFAULT){
     DemocracyCommands.remove(r);
   });
   }
+	Aux.upsert({_id:'democracyStart'}, {$set:{time:now}});
   }
 };
 
@@ -146,6 +149,7 @@ Meteor.methods({
       COMMAND_INTERVAL = 5000;
       Meteor.clearInterval(timerId);
       timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
+			Aux.upsert({_id:'democracyStart'}, {$set:{time:now}});
     }
     if (newMode == "Default" && mode != ModeEnum.DEFAULT) {
       mode = ModeEnum.DEFAULT;
@@ -164,6 +168,9 @@ if (Meteor.isServer) {
     if(! Aux.findOne('server') ) {
         Meteor.startup(function(){
             timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
+						Meteor.setInterval(function() {
+							Aux.upsert({"_id": "currentTime"}, {$set: {time: new Date().getTime()}});
+						}, 1);
         });
     }
 }
