@@ -1,21 +1,22 @@
 <head>
-  <title>meteorhack14</title>
+	<title>meteorhack14</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
 <body>
 {{> nav}}
-<div class="col-md-8">
+<div class="col-xs-12 col-md-8">
 	{{> buttons}}
 </div>
-<div class="col-md-4">
+<div class="col-xs-12 col-md-4">
 	{{> commandList}}
 </div>
 </body>
 
 <template name="buttons">
-<div class="row">
+<div class="row text-center">
 	{{#each options}}
-	<div class="col-md-4">
+	<div class="col-xs-4 col-md-4">
 		<i class="fa {{icon}} fa-5x"></i>
 	</div>
 	{{/each}}
