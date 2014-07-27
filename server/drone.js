@@ -124,26 +124,33 @@ var pubnub = Meteor.require("pubnub").init({
 var Fiber = Meteor.require('fibers');
 
 
-Meteor.startup(function() {
+
+Meteor.setTimeout(
+    function(){
+        console.log('cinderella');
 
 
-    if( Aux.findOne('server') ) {
+            if( Aux.findOne('server') ) {
+                console.log("starting as server in drone.js");
 
-        pubnub.subscribe({
-            channel  : 'drone_commands',
-            callback : function(message) {
+                pubnub.subscribe({
+                    channel  : 'drone_commands',
+                    callback : function(message) {
 
-                console.log(message);
+                        console.log(message);
 
-                new Fiber(function() {
-                    Meteor.call(message.m, message.p);
-                }).run();
+                        new Fiber(function() {
+                            Meteor.call(message.m, message.p);
+                        }).run();
 
 //                console.log( " > ", message );
+                    }
+                });
+
             }
-        });
-
-    }
 
 
-});
+
+    }, 2000);
+
+
