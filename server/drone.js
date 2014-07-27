@@ -1,4 +1,4 @@
-var IMPACT_VALUE = 0.3;
+var IMPACT_VALUE = 0.1;
 
 
 var bindMeteorCalls = function() {
