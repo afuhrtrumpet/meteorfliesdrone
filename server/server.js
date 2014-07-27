@@ -95,6 +95,7 @@ var processQueue = function() {
   remove.each(function(r){
     Commands.remove(r);
   });
+  Votes.remove({});
   }
   }
 };
@@ -109,6 +110,7 @@ Meteor.methods({
     console.log(newMode);
     console.log(mode);
     if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
+      Votes.remove({});
       mode = ModeEnum.DEMOCRACY;
       COMMAND_INTERVAL = 5000;
       Meteor.clearInterval(timerId);

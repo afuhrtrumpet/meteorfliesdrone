@@ -9,6 +9,10 @@ Template.buttons.events({
 
         // this.name is the name as set in the array above
         Meteor.call('pressButton', this.name, Meteor.userId());
+        var vote = Votes.upsert({
+          name :this.name
+        },
+        {$inc : {vote : 1}});
     }
 });
 
