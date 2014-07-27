@@ -95,7 +95,7 @@ var processQueue = function() {
   remove.each(function(r){
     Commands.remove(r);
   });
-  Votes.remove({});
+  Votes.update({},{vote:0});
   }
   }
 };
@@ -110,7 +110,25 @@ Meteor.methods({
     console.log(newMode);
     console.log(mode);
     if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
-      Votes.remove({});
+      //Votes.remove({});
+      Votes.upsert({
+        name : "Forward",
+        vote: 0});
+      Votes.upsert({
+        name: "Back",
+        vote: 0});
+      Votes.upsert({
+        name: "Left",
+        vote: 0});
+      Votes.upsert({
+        name :"Right",
+        vote: 0});
+      Votes.upsert({
+        name : "Clockwise",
+        vote: 0});
+      Votes.upsert({
+        name : "Counterclockwise",
+        vote: 0});
       mode = ModeEnum.DEMOCRACY;
       COMMAND_INTERVAL = 5000;
       Meteor.clearInterval(timerId);
