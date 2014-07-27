@@ -2,29 +2,44 @@
 
 static Window *window;
 static TextLayer *text_layer;
+static TextLayer *top_layer;
 int axis = 0;
+
+enum {
+  X_AXIS_UP = 0x0,
+  X_AXIS_DOWN = 0x1,
+  Y_AXIS_UP = 0x2,
+  Y_AXIS_DOWN = 0x03,
+};
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   if (axis == 0) {
     axis = 1;
-    text_layer_set_text(text_layer, "X-Axis");
+    text_layer_set_text(top_layer, "X-Axis");
   } else {
     axis = 0;
-    text_layer_set_text(text_layer, "Y-Axis");
+    text_layer_set_text(top_layer, "Y-Axis");
   }
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+  int message = (axis != 0) ? Y_AXIS_UP : X_AXIS_UP;
   text_layer_set_text(text_layer, "Up");
   DictionaryIterator *iter;
   app_message_outbox_begin(&iter);
-  Tuplet value = TupletInteger(10, 120);
+  Tuplet value = TupletInteger(0, message);
   dict_write_tuplet(iter, &value);
   app_message_outbox_send();
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+  int message = (axis != 0) ? Y_AXIS_DOWN : X_AXIS_DOWN;
   text_layer_set_text(text_layer, "Down");
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
+  Tuplet value = TupletInteger(0, message);
+  dict_write_tuplet(iter, &value);
+  app_message_outbox_send();
 }
 
 static void click_config_provider(void *context) {
@@ -55,10 +70,16 @@ static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
-  text_layer_set_text(text_layer, "Y-Axis");
+  text_layer = text_layer_create((GRect) { .origin = { 0, 75 }, .size = { bounds.size.w, 50 } });
+  text_layer_set_text(text_layer, "Press buttons to move Drone");
   text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
+
+  top_layer = text_layer_create((GRect) { .origin = { 0, 20 }, .size = { bounds.size.w, 50 } });
+  text_layer_set_text(top_layer, "X - Axis");
+  text_layer_set_alignment(top_layer, GTextAlignmentCenter);
+  text_layer_set_font(top_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+  layer_add_child(window_layer, text_layer_get_layer(top_layer));
 }
 
 static void window_unload(Window *window) {
