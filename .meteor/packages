@@ -7,7 +7,6 @@ standard-app-packages
 autopublish
 insecure
 ar-drone
-font-awesome
 sugar
 bootstrap-3
 accounts-base

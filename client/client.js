@@ -72,5 +72,5 @@ Template.buttons.events({
 });
 
 Template.main.userLoggedIn = function () {
-		return Meteor.userId();
+		return 1 || Meteor.userId();
 };
