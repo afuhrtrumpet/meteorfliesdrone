@@ -9,6 +9,14 @@ Meteor.startup(function () {
             };
 
             Commands.insert(o);
+        },
+
+        erase : function()
+        {
+            Commands.find().fetch().each(function(doomed){
+                Commands.remove(doomed._id);
+            });
+
         }
 
     });

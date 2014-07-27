@@ -1,28 +1,37 @@
 // file scope
+var timerId;
+
+// file scope
+var lastTick = 0;
+
+// file scope
 var processQueue = function() {
 
-    var newCommands = Commands.find().fetch();
+    // the now of this tick
+    var now = new Date().getTime();
+
+    Aux.upsert({_id: 'tickNow'}, {$set: { time:now }});
+
+    var newCommands = Commands.find({time:{$gt:lastTick}}).fetch();
+
 
     // track ids we are about to delete
-    var remove = [];
+//    var remove = [];
 
     // process every command in the collection
     newCommands.each(function(c){
         console.log(c);
 
-        remove.push(c._id);
+//        remove.push(c._id);
     });
 
 
-    remove.each(function(r){
-        Commands.remove(r);
-    });
+//    remove.each(function(r){
+//        Commands.remove(r);
+//    });
 
+    lastTick = now;
 };
-
-
-// file scope
-var timerId;
 
 // -- constants --
 
@@ -35,3 +44,4 @@ if (Meteor.isServer){
         timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     });
 }
+

@@ -26,11 +26,28 @@ Template.buttons.options = [
 ];
 
 //Placeholder, remove once we have actual data
-Template.commandList.commands = [
-	"Back 5 seconds 0.5 speed",
-	"Front 2 seconds .75 speed",
-	"Left 3 seconds .1 speed"
-];
+Template.commandList.commands = function() {
+
+    // how far back the command log goes
+    var commandHistoryTime = 8000;
+
+    var filterAfter = Aux.findOne('tickNow').time - commandHistoryTime;
+
+    // select commands that are newer than a timestamp, and sort so most recent are on the bottom
+    var commands = Commands.find({time:{$gt:filterAfter}}, {sort: {time: 1}}).fetch();
+
+    var results = [];
+
+    commands.each(function(c){
+        results.push(JSON.stringify(c));
+    });
+
+    return results;
+};
+
+Template.commandList.tickNow = function() {
+    return Aux.findOne('tickNow').time;
+}
 
 Template.buttons.events({
     'click i':function(e) {
