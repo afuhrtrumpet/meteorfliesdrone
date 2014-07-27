@@ -17,9 +17,11 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   if (axis == 0) {
     axis = 1;
     text_layer_set_text(top_layer, "Y-Axis");
+    text_layer_set_text(text_layer, "Press buttons to move Drone");
   } else {
     axis = 0;
     text_layer_set_text(top_layer, "X-Axis");
+    text_layer_set_text(text_layer, "Press buttons to move Drone");
   }
 }
 
