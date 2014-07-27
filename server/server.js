@@ -42,6 +42,9 @@ var processQueue = function() {
 		mostRecentCommand = Commands.findOne({}, {sort: {time: 1}});
 		if (mostRecentCommand) {
 			console.log("Processing: " + mostRecentCommand.command);
+			Meteor.call('processCommand', mostRecentCommand.command);
+		} else {
+			Meteor.call('stop');
 		}
 };
 

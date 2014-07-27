@@ -10,6 +10,9 @@
 <div class="col-md-4">
 	{{> commandList}}
 </div>
+<div class="col-md-12">
+	{{> adminPanel}}
+</div>
 </body>
 
 <template name="buttons">
@@ -49,4 +52,9 @@
 	{{/each}}
 </ul>
     {{tickNow}}
+</template>
+
+<template name="adminPanel">
+	<button class="btn btn-primary" id="takeoff">Start</button><br>
+	<button class="btn btn-danger" id="land">Land</button>
 </template>
