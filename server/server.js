@@ -1,10 +1,11 @@
+MAX_COMMANDS = 20;
 // file scope
 var timerId;
 
 // file scope
 var lastTick = 0;
 
-var mostRecentCommand;
+var currentCommand;
 
 // file scope
 var processQueue = function() {
@@ -34,24 +35,33 @@ var processQueue = function() {
 
     lastTick = now;
 
-		if (mostRecentCommand) {
-			Commands.remove(mostRecentCommand);
-			console.log("Removed: " + mostRecentCommand);
+		if (currentCommand) {
+			Commands.remove(currentCommand);
+			OldCommands.insert(currentCommand);
+			if ( OldCommands.find().count() + Commands.find().count() > MAX_COMMANDS) {
+				var commandToRemove = OldCommands.findOne({}, {sort: {time: 1}});
+				console.log("Removing old: " + commandToRemove);
+				OldCommands.remove(commandToRemove);
+			}
+			console.log("Removed: " + currentCommand);
 		}
 
-		mostRecentCommand = Commands.findOne({}, {sort: {time: 1}});
-		if (mostRecentCommand) {
-			console.log("Processing: " + mostRecentCommand.command);
-			Meteor.call('processCommand', mostRecentCommand.command);
+		currentCommand = Commands.findOne({}, {sort: {time: 1}});
+		if (currentCommand) {
+			console.log("Processing: " + currentCommand.command);
+			Meteor.call('processCommand', currentCommand.command);
 		} else {
 			Meteor.call('stop');
 		}
+
+		Aux.upsert({_id:'currentCommand'}, {$set:{current:currentCommand ? currentCommand._id : ""}});
 };
 
 // -- constants --
 
 // how often to issue a new command in ms
 COMMAND_INTERVAL = 1000;
+
 
 if (Meteor.isServer){
 
@@ -73,7 +83,6 @@ var pubnub = Meteor.require("pubnub").init({
 
 
 Meteor.startup(function() {
-
 
 
     if( Aux.findOne('server') )

@@ -6,7 +6,6 @@
 }
 
 .commandList {
-	border: 1px solid black;
 	width: 100%;
 	list-style-type: none;
 	list-style-position: none;
@@ -18,6 +17,10 @@
 	list-style-position: inside;
 	margin: 0;
 	padding: 0;
+}
+
+.currentCommand {
+	background-color: #D44 !important;
 }
 
 .commandList li:nth-child(odd) {

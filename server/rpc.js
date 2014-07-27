@@ -10,6 +10,11 @@ Meteor.startup(function () {
             };
 
             Commands.insert(o);
+						while (OldCommands.count() > 0 && OldCommands.find().count() + Commands.find().count() > MAX_COMMANDS) {
+							var commandToRemove = OldCommands.findOne({}, {sort: {time: 1}});
+							console.log("Removing old: " + commandToRemove);
+							OldCommands.remove(commandToRemove);
+						}
         },
 
         erase : function()
@@ -18,7 +23,13 @@ Meteor.startup(function () {
                 Commands.remove(doomed._id);
             });
 
+						OldCommands.find().fetch().each(function(doomed) {
+							OldCommands.remove(doomed._id);
+						});
+
         }
 
     });
+
+		Meteor.call('erase');
 });

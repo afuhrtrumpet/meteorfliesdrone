@@ -28,7 +28,7 @@ Template.buttons.options = [
 //Placeholder, remove once we have actual data
 Template.commandList.commands = function() {
 
-		return Commands.find({}, {sort: {time: 1}});
+		return OldCommands.find({}, {sort: {time: 1}}).fetch().concat(Commands.find({}, {sort: {time: 1}, limit: 20}).fetch());
 /*
     // how far back the command log goes
     var commandHistoryTime = 8000;
@@ -66,7 +66,13 @@ Template.commandList.tickNow = function() {
 }
 
 Template.commandList.username = function(userId) {
-	return Meteor.users.findOne(userId).emails[0];
+	return Meteor.users.findOne(userId).emails[0].address;
+};
+
+Template.commandList.currentCommand = function() {
+	var selected = Aux.findOne('currentCommand').current;
+			return this._id == selected	? "currentCommand" : "";
+		
 };
 
 Template.buttons.events({
