@@ -45,7 +45,6 @@ Meteor.startup(function() {
 		},
 
 		stop: function() {
-			console.log("Stopping");
 			client.stop();
 		}
 	});

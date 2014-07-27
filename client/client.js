@@ -1,33 +1,16 @@
-Template.buttons.options = [
-{
-	name: "Counterclockwise",
-	icon: "fa-rotate-left"
-},
-{
-	name: "Forward",
-	icon: "fa-chevron-circle-up"
-},
-{
-	name: "Clockwise",
-	icon: "fa-rotate-right"
-},
-{
-	name: "Left",
-	icon: "fa-chevron-circle-left"
-},
-{
-	name: "Back",
-	icon: "fa-chevron-circle-down"
-},
-{
-	name: "Right",
-	icon: "fa-chevron-circle-right"
-}
-];
+Template.buttons.events({
+    'click i':function(e) {
+
+        // this.name is the name as set in the array above
+        Meteor.call('pressButton', this.name, Meteor.userId());
+    }
+});
 
 //Placeholder, remove once we have actual data
 Template.commandList.commands = function() {
 
+		return Commands.find({}, {sort: {time: 1}});
+/*
     // how far back the command log goes
     var commandHistoryTime = 8000;
 
@@ -51,7 +34,7 @@ Template.commandList.commands = function() {
     else
     {
         return [];
-    }
+    }*/
 };
 
 Template.commandList.tickNow = function() {
@@ -63,24 +46,6 @@ Template.commandList.tickNow = function() {
     return 0;
 }
 
-Template.buttons.events({
-    'click i':function(e) {
-
-        // this.name is the name as set in the array above
-        Meteor.call('pressButton', this.name);
-    }
-});
-
-Template.adminPanel.events({
-	'click #takeoff': function() {
-		Meteor.call('takeoff', this.name);
-	},
-
-	'click #land': function() {
-		Meteor.call('land', this.name);
-	}
-});
-
-Template.main.userLoggedIn = function () {
-		return 1 || Meteor.userId();
+Template.commandList.username = function(userId) {
+	return Meteor.users.findOne(userId).emails[0];
 };
