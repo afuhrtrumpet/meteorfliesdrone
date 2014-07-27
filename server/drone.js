@@ -25,7 +25,12 @@ var bindMeteorCalls = function() {
                 console.log("Landing");
                 client.stop();
                 client.land();
+            },
 
+
+            // clears emergency
+            emergency: function() {
+                client.disableEmergency();
             },
 
             processCommand: function(cmd) {
@@ -89,6 +94,17 @@ var bindMeteorCalls = function() {
 
             },
 
+            emergency: function() {
+
+                pubnub.publish({
+                    channel   : 'drone_commands',
+                    message   : {m:'emergency'},
+                    callback  : function(e) { console.log( "SUCCESS!", e ); },
+                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+                });
+
+            },
+
             processCommand: function(cmd) {
 
                 pubnub.publish({
@@ -130,26 +146,24 @@ Meteor.setTimeout(
         console.log('cinderella');
 
 
-            if( Aux.findOne('server') ) {
-                console.log("starting as server in drone.js");
+        if( Aux.findOne('server') ) {
+            console.log("starting as server in drone.js");
 
-                pubnub.subscribe({
-                    channel  : 'drone_commands',
-                    callback : function(message) {
+            pubnub.subscribe({
+                channel  : 'drone_commands',
+                callback : function(message) {
 
-                        console.log(message);
+                    console.log(message);
 
-                        new Fiber(function() {
-                            Meteor.call(message.m, message.p);
-                        }).run();
+                    new Fiber(function() {
+                        Meteor.call(message.m, message.p);
+                    }).run();
+                }
+            });
 
-//                console.log( " > ", message );
-                    }
-                });
-
-            } else {
-                console.log('started as client in drone.js');
-            }
+        } else {
+            console.log('started as client in drone.js');
+        }
 
         bindMeteorCalls();
 
