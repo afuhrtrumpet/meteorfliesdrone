@@ -1,4 +1,4 @@
-var SITE_URL = '192.168.2.94:3000';
+var SITE_URL = '192.168.2.96:3000';
 window.__meteor_runtime_config__ = {
   ROOT_URL : SITE_URL,
   DDP_DEFAULT_CONNECTION_URL : SITE_URL,
