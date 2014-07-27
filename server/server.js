@@ -33,7 +33,7 @@ var processQueue = function() {
      //   console.log(c);
 
 //        remove.push(c._id);
-    });
+    //);
 
 
 //    remove.each(function(r){
