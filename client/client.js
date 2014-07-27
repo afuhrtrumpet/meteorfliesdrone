@@ -80,3 +80,7 @@ Template.adminPanel.events({
 		Meteor.call('land', this.name);
 	}
 });
+
+Template.main.userLoggedIn = function () {
+		return 1 || Meteor.userId();
+};

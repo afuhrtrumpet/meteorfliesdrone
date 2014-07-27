@@ -1,32 +1,21 @@
 {
-	"meteor": {},
-	"dependencies": {
-		"basePackages": {
-			"font-awesome": {},
-			"sugar": {},
-			"bootstrap-3": {}
-		},
-		"packages": {
-			"foundation": {
-				"git": "https://github.com/ewall/meteor-foundation.git",
-				"tag": "v5.3.1",
-				"commit": "fcf10ccc5286dac293b5fa57980593eea6441d41"
-			},
-			"font-awesome": {
-				"git": "https://github.com/nate-strauser/meteor-font-awesome.git",
-				"tag": "v4.1.0",
-				"commit": "ce6b1e92715d1938babc5d69c655c17e387f5926"
-			},
-			"sugar": {
-				"git": "https://github.com/bevanhunt/meteor-sugar.git",
-				"tag": "v0.1.7",
-				"commit": "eef2d45055fabeb27c003f39bb36b97a361b4455"
-			},
-			"bootstrap-3": {
-				"git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
-				"tag": "v3.2.0-1",
-				"commit": "17a63902fc6cf1096c5289d963c66cf28b474727"
-			}
-		}
-	}
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "sugar": {},
+      "bootstrap-3": {}
+    },
+    "packages": {
+      "sugar": {
+        "git": "https://github.com/bevanhunt/meteor-sugar.git",
+        "tag": "v0.1.7",
+        "commit": "eef2d45055fabeb27c003f39bb36b97a361b4455"
+      },
+      "bootstrap-3": {
+        "git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
+        "tag": "v3.2.0-1",
+        "commit": "17a63902fc6cf1096c5289d963c66cf28b474727"
+      }
+    }
+  }
 }
