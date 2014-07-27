@@ -1,7 +1,7 @@
 var IMPACT_VALUE = 0.3;
 
 
-Meteor.startup(function() {
+var bindMeteorCalls = function() {
     var client = arDrone.createClient();
 
 
@@ -111,7 +111,7 @@ Meteor.startup(function() {
         });
 
     }
-});
+};
 
 
 
@@ -147,7 +147,11 @@ Meteor.setTimeout(
                     }
                 });
 
+            } else {
+                console.log('started as client in drone.js');
             }
+
+        bindMeteorCalls();
 
 
 
