@@ -1,3 +1,4 @@
+var IMPACT_VALUE = 0.3;
 Meteor.startup(function() {
 	var client = arDrone.createClient();
 
@@ -18,27 +19,27 @@ Meteor.startup(function() {
 			client.stop();
 			switch(cmd.toLowerCase()) {
 				case "forward":
-					client.front(0.5);
+					client.front(IMPACT_VALUE);
 					console.log("Going forward");
 					break;
 				case "back":
-					client.back(0.5);
+					client.back(IMPACT_VALUE);
 					console.log("Going back");
 					break;
 				case "left":
-					client.left(0.5);
+					client.left(IMPACT_VALUE);
 					console.log("Going left");
 					break;
 				case "right":
-					client.right(0.5);
+					client.right(IMPACT_VALUE);
 					console.log("Going right");
 					break;
 				case "clockwise":
-					client.clockwise(0.5);
+					client.clockwise(IMPACT_VALUE);
 					console.log("Going clockwise");
 					break;
 				case "counterclockwise":
-					client.counterClockwise(0.5);
+					client.counterClockwise(IMPACT_VALUE);
 					console.log("Going counter clockwise");
 					break;
 			}
