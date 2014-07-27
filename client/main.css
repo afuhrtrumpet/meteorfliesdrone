@@ -5,26 +5,34 @@
 	bottom: 20px;
 }
 
-.commandList {
-	border: 1px solid black;
+#commandList {
 	width: 100%;
 	list-style-type: none;
 	list-style-position: none;
 	margin: 0;
 	padding: 0;
+	height: 250px;
+	overflow: scroll;
 }
 
-.commandList li {
+#commandList li {
 	list-style-position: inside;
 	margin: 0;
 	padding: 0;
 }
 
-.commandList li:nth-child(odd) {
+.currentCommand {
+	background-color: #D44 !important;
+}
+
+#commandList li:nth-child(odd) {
 	background-color: #AAA;
 }
 
-.commandList li:nth-child(even) {
+#commandList li:nth-child(even) {
 	background-color: #888;
 }
 
+.clicked {
+	color: #888;
+}

@@ -11,12 +11,21 @@ Meteor.startup(function () {
 
         pressButton : function(name) {
 
+            Votes.update({name:name},{$inc:{vote:1}});
             var o = {
                 time: new Date().getTime(),
                 command: name,
                 userId: Meteor.userId()
             };
-            Commands.insert(o);
+
+            console.log(name);
+
+            if( Aux.findOne('Mode') && Aux.findOne('Mode').name === "Default") {
+                Commands.insert(o);
+            } else {
+                DemocracyCommands.insert(o);
+            }
+
         },
 
         erase : function()
@@ -25,6 +34,9 @@ Meteor.startup(function () {
                 Commands.remove(doomed._id);
             });
 
+						OldCommands.find().fetch().each(function(doomed) {
+							OldCommands.remove(doomed._id);
+						});
         },
 
         setServer : function(val)
@@ -37,4 +49,6 @@ Meteor.startup(function () {
         }
 
     });
+
+		Meteor.call('erase');
 });

@@ -1,4 +1,5 @@
-var IMPACT_VALUE = 0.3;
+var IMPACT_VALUE = 0.15;
+var ROTATE_VALUE = 0.3;
 
 
 var bindMeteorCalls = function() {
@@ -32,6 +33,13 @@ var bindMeteorCalls = function() {
             emergency: function() {
                 console.log("Emergency");
                 client.disableEmergency();
+                client.stop();
+                client.land();
+            },
+
+            calibrate: function() {
+                // must be 0
+                client.calibrate(0);
             },
 
             processCommand: function(cmd) {
@@ -64,16 +72,20 @@ var bindMeteorCalls = function() {
                         console.log("Going down");
                         break;
                     case "clockwise":
-                        client.clockwise(IMPACT_VALUE);
+                        client.clockwise(ROTATE_VALUE);
                         console.log("Going clockwise");
                         break;
                     case "counterclockwise":
-                        client.counterClockwise(IMPACT_VALUE);
+                        client.counterClockwise(ROTATE_VALUE);
                         console.log("Going counter clockwise");
                         break;
 
                 }
 
+                Meteor.setTimeout(function(){
+                    client.stop();
+                    console.log('autostop');
+                }, 1000);
             },
 
             stop: function() {
@@ -109,6 +121,17 @@ var bindMeteorCalls = function() {
                 pubnub.publish({
                     channel   : 'drone_commands',
                     message   : {m:'emergency'},
+                    callback  : function(e) { console.log( "SUCCESS!", e ); },
+                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+                });
+
+            },
+
+            calibrate: function() {
+
+                pubnub.publish({
+                    channel   : 'drone_commands',
+                    message   : {m:'calibrate'},
                     callback  : function(e) { console.log( "SUCCESS!", e ); },
                     error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
                 });
