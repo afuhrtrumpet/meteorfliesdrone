@@ -1,7 +1,17 @@
+Template.main.democracy = function() {
+	Meteor.call('getMode', function(err, response) {
+		return response;
+	});
+};
+
+var graphData = {
+	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "Couterclockwise"],
+	datasets: {
+		label: "Votes",
+	}
+};
+
 Deps.autorun(function() {
-	var commandList = document.getElementById('commandList');
-	if (commandList)
-		commandList.scrollTop = commandList.scrollHeight;
 });
 
 Template.buttons.events({
