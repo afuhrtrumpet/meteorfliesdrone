@@ -1,6 +1,10 @@
 <template name="adminPanel">
-	<button class="btn btn-primary" id="takeoff">Start</button><br>
-  <button class="btn btn-danger" id="land">Land</button>
-  <button class="btn btn-danger" id="modeDemocracy">Democracy</button>
-  <button class="btn btn-danger" id="modeDefault">Default</button>
+	<div class="row text-center top-buffer">
+		{{#each controls}}
+			<button class="btn {{btntype}}" id="{{id}}">{{id}}</button>
+		{{/each}}
+		{{#each modes}}
+			<button class="btn {{btntype}}" id="{{id}}">{{id}}</button>
+		{{/each}}
+	</div>
 </template>

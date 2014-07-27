@@ -30,6 +30,7 @@ var bindMeteorCalls = function() {
 
             // clears emergency
             emergency: function() {
+                console.log("Emergency");
                 client.disableEmergency();
             },
 
@@ -54,6 +55,14 @@ var bindMeteorCalls = function() {
                         client.right(IMPACT_VALUE);
                         console.log("Going right");
                         break;
+                    case "up":
+                        client.right(IMPACT_VALUE);
+                        console.log("Going up");
+                        break;
+                    case "down":
+                        client.right(IMPACT_VALUE);
+                        console.log("Going down");
+                        break;
                     case "clockwise":
                         client.clockwise(IMPACT_VALUE);
                         console.log("Going clockwise");
@@ -62,6 +71,7 @@ var bindMeteorCalls = function() {
                         client.counterClockwise(IMPACT_VALUE);
                         console.log("Going counter clockwise");
                         break;
+
                 }
 
             },
