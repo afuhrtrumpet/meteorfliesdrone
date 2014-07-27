@@ -2,7 +2,7 @@
 var ModeEnum = {
   DEMOCRACY : 0,
   ANARCHY : 1,
-  DEFAULT = 2
+  DEFAULT : 2
 };
 
 var mode = ModeEnum.DEFAULT;
@@ -16,7 +16,6 @@ var mostRecentCommand;
 
 // file scope
 var processQueue = function() {
-  if (mode == ModeEnum.DEFAULT) {
     // the now of this tick
     var now = new Date().getTime();
 
@@ -42,6 +41,7 @@ var processQueue = function() {
 
     lastTick = now;
 
+  if (mode == ModeEnum.DEFAULT) {
 		if (mostRecentCommand) {
 			Commands.remove(mostRecentCommand);
 			console.log("Removed: " + mostRecentCommand);
@@ -56,7 +56,28 @@ var processQueue = function() {
 		}
   }
   else if (mode == ModeEnum.DEMOCRACY) {
-   // Use democracy
+   // Use democracyi
+  if(newCommands.length < 1) {
+    Meteor.call('stop');
+  }
+   var commands = {}
+   var remove = [];
+   newCommands.each(function(c){
+     remove.push(c._id);
+     if (c.name in commands) {
+       commands[c.name] = 1;
+     }
+     else {commands[c.name] = commands[c.name] + 1;
+     }
+   });
+  keysSorted = Object.keys(list).sort(function(a,b){return list[b]-list[a]});
+  console.log("democracy chose : " + keysSorted[0].command);
+  Meteor.call("processCommand", keysSorted[0].command);
+  // Remove new commands
+  remove.each(function(r){
+    Commands.remove(r);
+  });
+  
   }
 };
 
@@ -67,13 +88,19 @@ COMMAND_INTERVAL = 1000; // DEFAULT
 
 Meteor.methods({
   changeMode : function(newMode) {
-    if (newMode == "Democracy") {
+    console.log(newMode);
+    console.log(mode);
+    if (newMode == "Democracy" and mode != ModeEnum.DEMOCRACY) {
       mode = ModeEnum.DEMOCRACY;
       COMMAND_INTERVAL = 5000;
+      Meteor.clearInterval(timerId);
+      timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     }
-    if (newMode == "Default") {
+    if (newMode == "Default" and mode != ModeEnum.DEFAULT) {
       mode = ModeEnum.DEFAULT;
       COMMAND_INTERVAL = 1000;
+      Meteor.clearInterval(timerId);
+      timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     }
   }
 });

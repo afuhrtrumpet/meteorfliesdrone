@@ -80,10 +80,10 @@ Template.adminPanel.events({
 		Meteor.call('land', this.name);
 	},
   'click #modeDemocracy' : function() {
-    Meteor.call('modeChange', 'Democracy');
+    Meteor.call('changeMode', 'Democracy');
   },
   'click #modeDefault' : function() {
-    Meteor.call('modeChange', 'Default');
+    Meteor.call('changeMode:', 'Default');
   }
 });
 
