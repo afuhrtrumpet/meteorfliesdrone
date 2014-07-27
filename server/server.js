@@ -120,6 +120,9 @@ Meteor.methods({
       Meteor.clearInterval(timerId);
       timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     }
+  },
+  getMode : function() {
+    return mode;
   }
 });
 
