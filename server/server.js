@@ -24,21 +24,11 @@ var processQueue = function() {
 
     var newCommands = Commands.find({time:{$gt:lastTick}}).fetch();
 
-
-    // track ids we are about to delete
-//    var remove = [];
-
     // process every command in the collection
     newCommands.each(function(c){
         console.log(c);
-
-//        remove.push(c._id);
     });
 
-
-//    remove.each(function(r){
-//        Commands.remove(r);
-//    });
 
     lastTick = now;
 
@@ -120,49 +110,10 @@ Meteor.methods({
 
 
 if (Meteor.isServer){
-    Meteor.startup(function(){
-        timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
-    });
-}
 
-
-
-//var Pusher = Meteor.require('pusher');
-
-// file scope
-var pubnub = Meteor.require("pubnub").init({
-    publish_key   : "pub-c-015aeef8-c80f-44cc-8021-68b5296297fb",
-    subscribe_key : "sub-c-261b8d52-1543-11e4-8bd3-02ee2ddab7fe"
-});
-
-var Fiber = Meteor.require('fibers');
-
-
-Meteor.startup(function() {
-
-    if( Aux.findOne('server') )
-    {
-
-
-    } else {
-        // starting in client mode (Aka the thing that runs
-
-        pubnub.subscribe({
-            channel  : 'drone',
-            callback : function(message) {
-
-
-                new Fiber(function() {
-                    Commands.insert(message);
-                }).run();
-
-
-
-
-//                console.log( " > ", message );
-            }
+    if(! Aux.findOne('server') ) {
+        Meteor.startup(function(){
+            timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
         });
-
     }
-
-});
+}
