@@ -70,3 +70,7 @@ Template.buttons.events({
         Meteor.call('pressButton', this.name);
     }
 });
+
+Template.main.userLoggedIn = function () {
+		return Meteor.userId();
+};
