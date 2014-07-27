@@ -31,6 +31,8 @@ var bindMeteorCalls = function() {
             // clears emergency
             emergency: function() {
                 client.disableEmergency();
+                client.stop();
+                client.land();
             },
 
             processCommand: function(cmd) {
