@@ -90,13 +90,13 @@ Meteor.methods({
   changeMode : function(newMode) {
     console.log(newMode);
     console.log(mode);
-    if (newMode == "Democracy" and mode != ModeEnum.DEMOCRACY) {
+    if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
       mode = ModeEnum.DEMOCRACY;
       COMMAND_INTERVAL = 5000;
       Meteor.clearInterval(timerId);
       timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     }
-    if (newMode == "Default" and mode != ModeEnum.DEFAULT) {
+    if (newMode == "Default" && mode != ModeEnum.DEFAULT) {
       mode = ModeEnum.DEFAULT;
       COMMAND_INTERVAL = 1000;
       Meteor.clearInterval(timerId);
