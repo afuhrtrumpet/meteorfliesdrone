@@ -70,7 +70,7 @@ Template.buttons.events({
             Meteor.call('processCommand', 'counterclockwise');
         }
 
-        
+
 
     }
 });
@@ -129,19 +129,28 @@ Template.commandList.currentCommand = function() {
 };
 
 Template.adminPanel.events({
-	'click #takeoff': function() {
-		Meteor.call('takeoff', this.name);
-	},
+    'click #takeoff': function() {
+        Meteor.call('takeoff', this.name);
+    },
 
-	'click #land': function() {
-		Meteor.call('land', this.name);
-	},
-  'click #modeDemocracy' : function() {
-    Meteor.call('changeMode', 'Democracy');
-  },
-  'click #modeDefault' : function() {
-    Meteor.call('changeMode', 'Default');
-  }
+    'click #land': function() {
+        Meteor.call('land', this.name);
+    },
+    'click #modeDemocracy' : function() {
+        Meteor.call('changeMode', 'Democracy');
+    },
+    'click #modeDefault' : function() {
+        Meteor.call('changeMode', 'Default');
+    },
+    'click #Up' : function() {
+        Meteor.call('processCommand', 'up');
+    },
+    'click #Down' : function() {
+        Meteor.call('processCommand', 'down');
+    }
+
+
+
 });
 
 Template.main.userLoggedIn = function () {

@@ -1,6 +1,6 @@
 var IMPACT_VALUE = 0.15;
 var ROTATE_VALUE = 0.3;
-
+var VERT_SPEED = 0.3;
 
 var bindMeteorCalls = function() {
     var client = arDrone.createClient();
@@ -64,11 +64,11 @@ var bindMeteorCalls = function() {
                         console.log("Going right");
                         break;
                     case "up":
-                        client.up(IMPACT_VALUE);
+                        client.up(VERT_SPEED);
                         console.log("Going up");
                         break;
                     case "down":
-                        client.down(IMPACT_VALUE);
+                        client.down(VERT_SPEED);
                         console.log("Going down");
                         break;
                     case "clockwise":

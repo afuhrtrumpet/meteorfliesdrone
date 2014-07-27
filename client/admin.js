@@ -39,10 +39,6 @@ Template.adminPanel.controls = [
 	btntype: "btn-warning"
 },
 {
-	id: "Calibrate",
-	btntype: "btn-primary"
-},
-{
 	id: "Up",
 	btntype: "btn-primary"
 },
