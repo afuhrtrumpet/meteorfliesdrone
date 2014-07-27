@@ -103,6 +103,7 @@ if (mode == ModeEnum.DEFAULT){
     userId : this.userId
   });
   Meteor.call("processCommand", item);
+  Meteor.call("processCommmand","stop");
   // Remove new commands
   remove.each(function(r){
     DemocracyCommands.remove(r);
