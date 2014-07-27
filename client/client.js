@@ -8,10 +8,20 @@ var graphData = {
 	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "Couterclockwise"],
 	datasets: {
 		label: "Votes",
+		data: [0, 0, 0, 0, 0]
 	}
 };
 
 Deps.autorun(function() {
+	var votes = Votes.find().fetch();
+	for (var i in votes) {
+		graphData.datasets.data[graphData.labels.indexOf(votes[i].name)] = votes[i].vote;
+	}
+
+	if ($("#barGraph").length > 0) {
+		var ctx = $("#barGraph").get(0).getContext("2d");
+		var barChart = new Chart(ctx).Bar(data, options);
+	}
 });
 
 Template.buttons.events({
