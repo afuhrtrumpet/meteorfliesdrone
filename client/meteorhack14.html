@@ -17,7 +17,9 @@
 			{{> commandList}}
 		</div>
 		<div class="col-md-12">
-			{{> adminPanel}}
+			{{#if isAdmin}}
+				{{> adminPanel}}
+			{{/if}}
 		</div>
 	{{/if}}
 </template>
