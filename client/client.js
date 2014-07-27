@@ -1,7 +1,51 @@
+Template.main.democracy = function() {
+	var mode = Aux.findOne("Mode");
+	console.log(mode);
+	if( mode && mode.name ) {
+		return mode.name == "Democracy";
+	} else {
+		return false; // someting weng wrong juse use this
+	}
+};
+
+var graphData = {
+	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "Counterclockwise"],
+	datasets: [{
+		label: "Votes",
+		data: [0, 0, 0, 0, 0, 0]
+	}]
+};
+
+Deps.autorun(function() {
+	var votes = Votes.find().fetch();
+	for (var i in votes) {
+		graphData.datasets[0].data[graphData.labels.indexOf(votes[i].name)] = votes[i].vote;
+	}
+
+	if ($("#barGraph").length > 0) {
+		console.log(graphData);
+		var ctx = $("#barGraph").get(0).getContext("2d");
+		var barChart = new Chart(ctx).Bar(graphData, {});
+	}
+});
+
+Template.buttons.events({
+
+	'mousedown i': function(e) {
+//		console.log($(e.target));
+		$(e.target).addClass("clicked");
+	},
+
+	'mouseup i': function(e) {
+		$(e.target).removeClass("clicked");
+        Meteor.call('pressButton', this.name);
+	}
+});
+
 //Placeholder, remove once we have actual data
 Template.commandList.commands = function() {
 
-		return OldCommands.find({}, {sort: {time: 1}}).fetch().concat(Commands.find({}, {sort: {time: 1}, limit: 20}).fetch());
+		return Commands.find({}, {sort: {time: -1}}).fetch().concat(OldCommands.find({}, {sort: {time: -1}}).fetch());
 /*
     // how far back the command log goes
     var commandHistoryTime = 8000;
@@ -39,20 +83,17 @@ Template.commandList.tickNow = function() {
 }
 
 Template.commandList.username = function(userId) {
-	return Meteor.user().username;
+	if( Meteor.user() )
+    {
+        return Meteor.user().username;
+    }
+    return "";
 };
 
 Template.commandList.currentCommand = function() {
 	var selected = Aux.findOne('currentCommand').current;
 	return this._id == selected	? "currentCommand" : "";
 };
-Template.buttons.events({
-    'click i':function(e) {
-
-        // this.name is the name as set in the array above
-        Meteor.call('pressButton', this.name);
-    }
-});
 
 Template.adminPanel.events({
 	'click #takeoff': function() {
@@ -66,7 +107,7 @@ Template.adminPanel.events({
     Meteor.call('changeMode', 'Democracy');
   },
   'click #modeDefault' : function() {
-    Meteor.call('changeMode:', 'Default');
+    Meteor.call('changeMode', 'Default');
   }
 });
 

@@ -11,13 +11,20 @@ Meteor.startup(function () {
 
         pressButton : function(name) {
 
+            Votes.update({name:name},{$inc:{vote:1}});
             var o = {
                 time: new Date().getTime(),
                 command: name,
                 userId: Meteor.userId()
             };
 
-            Commands.insert(o);
+            console.log(name);
+
+            if( Aux.findOne('Mode') && Aux.findOne('Mode').name === "Default") {
+                Commands.insert(o);
+            } else {
+                DemocracyCommands.insert(o);
+            }
 
         },
 

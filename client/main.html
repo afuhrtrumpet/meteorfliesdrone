@@ -20,6 +20,9 @@
 			{{/if}}
 		</div>
 		<div class="col-xs-12 col-md-4">
+			{{#if democracy}}
+				<canvas id="barGraph" height="300"></canvas>
+			{{/if}}
 			{{> commandList}}
 		</div>
 	{{/if}}
@@ -53,7 +56,7 @@
 </template>
 
 <template name="commandList">
-	<ul class="commandList">
+	<ul id = "commandList">
 		{{#each commands}}
 			<li class={{currentCommand}}>
 			{{command}} by {{username userId}}

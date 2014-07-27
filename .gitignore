@@ -10,4 +10,5 @@
 
 # Pebble build remove
 public/pebble_drone/build/
-public/pebble_drone/.lin*
+public/pebble_drone/.loc*
+
