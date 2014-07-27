@@ -1,4 +1,4 @@
-var SITE_URL = '192.168.2.96:3000';
+var SITE_URL = 'meteorfliesdrone.meteor.com';
 window.__meteor_runtime_config__ = {
   ROOT_URL : SITE_URL,
   DDP_DEFAULT_CONNECTION_URL : SITE_URL,
@@ -105,7 +105,7 @@ Pebble.addEventListener("appmessage",
         break;
       case 1:
         // x axis down
-        Meteor.call('pressButton','Backward');
+        Meteor.call('pressButton','Back');
         break;
       case 2:
         // y axi up
