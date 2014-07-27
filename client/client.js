@@ -1,3 +1,4 @@
+
 Template.main.democracy = function() {
 	var mode = Aux.findOne("Mode");
 	console.log(mode);
