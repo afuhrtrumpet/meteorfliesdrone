@@ -79,9 +79,14 @@ var processQueue = function() {
      else {commands[c.name] = commands[c.name] + 1;
      }
    });
-  keysSorted = Object.keys(commands).sort(function(a,b){return commands[b]-commands[a]});
-  console.log("democracy chose : " + keysSorted[0].command);
-  Meteor.call("processCommand", keysSorted[0].command);
+  var sort_array = [];
+  for (var key in commands) {
+    sort_array.push({key:key, value:commands[key]});
+  }
+  sort_array.sort(function(x,y){ return x.value - y.value});
+  item = sort_array[0].key;
+  console.log("democracy chose : " + item);
+  Meteor.call("processCommand", item);
   // Remove new commands
   remove.each(function(r){
     Commands.remove(r);
