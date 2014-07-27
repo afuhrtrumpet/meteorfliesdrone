@@ -15,14 +15,12 @@
 	{{#if userLoggedIn}}
 		<div class="col-xs-12 col-md-8">
 			{{> buttons}}
-		</div>
-		<div class="col-xs-12 col-md-4">
-			{{> commandList}}
-		</div>
-		<div class="col-md-12">
 			{{#if isAdmin}}
 				{{> adminPanel}}
 			{{/if}}
+		</div>
+		<div class="col-xs-12 col-md-4">
+			{{> commandList}}
 		</div>
 	{{/if}}
 </template>
@@ -57,7 +55,7 @@
 <template name="commandList">
 	<ul class="commandList">
 		{{#each commands}}
-			<li>
+			<li class={{currentCommand}}>
 			{{command}} by {{username userId}}
 			</li>
 		{{/each}}

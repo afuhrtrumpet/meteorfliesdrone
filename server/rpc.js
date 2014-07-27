@@ -17,6 +17,11 @@ Meteor.startup(function () {
 								userId: Meteor.userId()
             };
 
+						/*while (OldCommands.count() > 0 && OldCommands.find().count() + Commands.find().count() > MAX_COMMANDS) {
+							var commandToRemove = OldCommands.findOne({}, {sort: {time: 1}});
+							console.log("Removing old: " + commandToRemove);
+							OldCommands.remove(commandToRemove);
+						}*/
 //            Commands.insert(o);
 
             pubnub.publish({
@@ -34,6 +39,9 @@ Meteor.startup(function () {
                 Commands.remove(doomed._id);
             });
 
+						OldCommands.find().fetch().each(function(doomed) {
+							OldCommands.remove(doomed._id);
+						});
         },
 
         setServer : function(val)
@@ -46,4 +54,6 @@ Meteor.startup(function () {
         }
 
     });
+
+		Meteor.call('erase');
 });
