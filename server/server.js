@@ -60,3 +60,39 @@ if (Meteor.isServer){
     });
 }
 
+
+
+//var Pusher = Meteor.require('pusher');
+
+
+var pubnub = Meteor.require("pubnub").init({
+    publish_key   : "pub-c-015aeef8-c80f-44cc-8021-68b5296297fb",
+    subscribe_key : "sub-c-261b8d52-1543-11e4-8bd3-02ee2ddab7fe"
+});
+
+
+
+Meteor.startup(function() {
+
+
+
+    if( Aux.findOne('server') )
+    {
+
+//        var message = { "some" : "data" };
+//        pubnub.publish({
+//            channel   : 'my_channel',
+//            message   : message,
+//            callback  : function(e) { console.log( "SUCCESS!", e ); },
+//            error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+//        });
+
+
+//        Pusher.url = "http://3851f071c179b8816524:c3336a8c1c792c5e57cc@api.pusherapp.com/apps/83143";
+//
+//        Pusher['test_channel'].trigger('my_event', {
+//            message: 'hello world'
+//        });
+    }
+
+});
