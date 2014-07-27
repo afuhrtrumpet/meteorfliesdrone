@@ -1,4 +1,3 @@
-
 Template.main.democracy = function() {
 	var mode = Aux.findOne("Mode");
 	console.log(mode);
@@ -38,7 +37,16 @@ Template.buttons.events({
   //        name :this.name
   //      },
  //       {$inc : {vote : 1}},function(err,c){console.log(this.name+"  "+c);});
-    }
+    },
+
+	'mousedown i': function(e) {
+		console.log($(e.target));
+		$(e.target).addClass("clicked");
+	},
+
+	'mouseup i': function(e) {
+		$(e.target).removeClass("clicked");
+	}
 });
 
 //Placeholder, remove once we have actual data
@@ -89,13 +97,6 @@ Template.commandList.currentCommand = function() {
 	var selected = Aux.findOne('currentCommand').current;
 	return this._id == selected	? "currentCommand" : "";
 };
-Template.buttons.events({
-    'click i':function(e) {
-
-        // this.name is the name as set in the array above
-        Meteor.call('pressButton', this.name);
-    }
-});
 
 Template.adminPanel.events({
 	'click #takeoff': function() {
