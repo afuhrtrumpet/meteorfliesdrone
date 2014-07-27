@@ -11,6 +11,7 @@ Meteor.startup(function () {
 
         pressButton : function(name) {
 
+            Votes.update({name:name},{$inc:{vote:1}});
             var o = {
                 time: new Date().getTime(),
                 command: name,

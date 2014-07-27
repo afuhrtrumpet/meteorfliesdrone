@@ -7,6 +7,7 @@ var ModeEnum = {
 };
 
 var mode = ModeEnum.DEFAULT;
+Aux.upsert("Mode", {$set: {"name": "Default"}});
 // file scope
 var timerId;
 
@@ -33,7 +34,7 @@ var processQueue = function() {
      //   console.log(c);
 
 //        remove.push(c._id);
-    });
+    //);
 
 
 //    remove.each(function(r){
@@ -66,6 +67,25 @@ var processQueue = function() {
   }
   else if (mode == ModeEnum.DEMOCRACY) {
    // Use democracyi
+       Votes.remove({});
+      Votes.insert({
+        name : "Forward",
+        vote: 0});
+      Votes.insert({
+        name: "Back",
+        vote: 0});
+      Votes.insert({
+        name: "Left",
+        vote: 0});
+      Votes.insert({
+        name :"Right",
+        vote: 0});
+      Votes.insert({
+        name : "Clockwise",
+        vote: 0});
+      Votes.insert({
+        name : "Counterclockwise",
+        vote: 0});
   console.log(newCommands.length);
   if(newCommands.length < 1) {
     Meteor.call('stop');
@@ -106,10 +126,30 @@ COMMAND_INTERVAL = 1000; // DEFAULT
 
 Meteor.methods({
   changeMode : function(newMode) {
+		Aux.upsert("Mode", {$set: {"name": newMode}});
     console.log(newMode);
     console.log(mode);
     if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
-      mode = ModeEnum.DEMOCRACY;
+       Votes.remove({});
+      Votes.insert({
+        name : "Forward",
+        vote: 0});
+      Votes.insert({
+        name: "Back",
+        vote: 0});
+      Votes.insert({
+        name: "Left",
+        vote: 0});
+      Votes.insert({
+        name :"Right",
+        vote: 0});
+      Votes.insert({
+        name : "Clockwise",
+        vote: 0});
+      Votes.insert({
+        name : "Counterclockwise",
+        vote: 0});
+     mode = ModeEnum.DEMOCRACY;
       COMMAND_INTERVAL = 5000;
       Meteor.clearInterval(timerId);
       timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
@@ -120,6 +160,9 @@ Meteor.methods({
       Meteor.clearInterval(timerId);
       timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     }
+  },
+  getMode : function() {
+    return mode;
   }
 });
 
