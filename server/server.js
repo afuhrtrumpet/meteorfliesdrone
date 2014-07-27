@@ -110,23 +110,23 @@ Meteor.methods({
     console.log(newMode);
     console.log(mode);
     if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
-      //Votes.remove({});
-      Votes.upsert({
+      Votes.remove({});
+      Votes.insert({
         name : "Forward",
         vote: 0});
-      Votes.upsert({
+      Votes.insert({
         name: "Back",
         vote: 0});
-      Votes.upsert({
+      Votes.insert({
         name: "Left",
         vote: 0});
-      Votes.upsert({
+      Votes.insert({
         name :"Right",
         vote: 0});
-      Votes.upsert({
+      Votes.insert({
         name : "Clockwise",
         vote: 0});
-      Votes.upsert({
+      Votes.insert({
         name : "Counterclockwise",
         vote: 0});
       mode = ModeEnum.DEMOCRACY;
