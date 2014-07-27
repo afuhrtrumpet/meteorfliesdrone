@@ -49,3 +49,30 @@ Template.commandList.tickNow = function() {
 Template.commandList.username = function(userId) {
 	return Meteor.user().username;
 };
+Template.buttons.events({
+    'click i':function(e) {
+
+        // this.name is the name as set in the array above
+        Meteor.call('pressButton', this.name);
+    }
+});
+
+Template.adminPanel.events({
+	'click #takeoff': function() {
+		Meteor.call('takeoff', this.name);
+	},
+
+	'click #land': function() {
+		Meteor.call('land', this.name);
+	},
+  'click #modeDemocracy' : function() {
+    Meteor.call('changeMode', 'Democracy');
+  },
+  'click #modeDefault' : function() {
+    Meteor.call('changeMode:', 'Default');
+  }
+});
+
+Template.main.userLoggedIn = function () {
+		return 1 || Meteor.userId();
+};
