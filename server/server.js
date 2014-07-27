@@ -161,3 +161,10 @@ Meteor.methods({
   }
 });
 
+if (Meteor.isServer) {
+    if(! Aux.findOne('server') ) {
+        Meteor.startup(function(){
+            timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
+        });
+    }
+}
