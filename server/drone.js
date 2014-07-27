@@ -1,24 +1,31 @@
 var IMPACT_VALUE = 0.3;
 
-// Only call drone commands if we are on the "server" instance
-if( Aux.findOne('server') )
-{
-    Meteor.startup(function() {
-        var client = arDrone.createClient();
 
-        Meteor.methods({
-            takeoff: function() {
+Meteor.startup(function() {
+    var client = arDrone.createClient();
+
+    Meteor.methods({
+        takeoff: function() {
+            // Only call drone commands if we are on the "server" instance
+            if( Aux.findOne('server') )
+            {
                 console.log("Taking off");
                 client.takeoff();
-            },
+            }
+        },
 
-            land: function() {
+        land: function() {
+            if( Aux.findOne('server') )
+            {
                 console.log("Landing");
                 client.stop();
                 client.land();
-            },
+            }
+        },
 
-            processCommand: function(cmd) {
+        processCommand: function(cmd) {
+            if( Aux.findOne('server') )
+            {
                 console.log("Command is: " + cmd);
                 client.stop();
                 switch(cmd.toLowerCase()) {
@@ -47,11 +54,14 @@ if( Aux.findOne('server') )
                         console.log("Going counter clockwise");
                         break;
                 }
-            },
+            }
+        },
 
-            stop: function() {
+        stop: function() {
+            if( Aux.findOne('server') )
+            {
                 client.stop();
             }
-        });
+        }
     });
-}
+});
