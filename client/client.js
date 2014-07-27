@@ -97,13 +97,6 @@ Template.commandList.currentCommand = function() {
 	var selected = Aux.findOne('currentCommand').current;
 	return this._id == selected	? "currentCommand" : "";
 };
-Template.buttons.events({
-    'click i':function(e) {
-
-        // this.name is the name as set in the array above
-        Meteor.call('pressButton', this.name);
-    }
-});
 
 Template.adminPanel.events({
 	'click #takeoff': function() {
