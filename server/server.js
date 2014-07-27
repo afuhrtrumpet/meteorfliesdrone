@@ -1,4 +1,12 @@
 MAX_COMMANDS = 20;
+// Mode enum
+var ModeEnum = {
+  DEMOCRACY : 0,
+  ANARCHY : 1,
+  DEFAULT : 2
+};
+
+var mode = ModeEnum.DEFAULT;
 // file scope
 var timerId;
 
@@ -9,7 +17,6 @@ var currentCommand;
 
 // file scope
 var processQueue = function() {
-
     // the now of this tick
     var now = new Date().getTime();
 
@@ -35,14 +42,15 @@ var processQueue = function() {
 
     lastTick = now;
 
+  if (mode == ModeEnum.DEFAULT) {
 		if (currentCommand) {
 			Commands.remove(currentCommand);
 			OldCommands.insert(currentCommand);
-			if ( OldCommands.find().count() + Commands.find().count() > MAX_COMMANDS) {
+			/*if ( OldCommands.find().count() + Commands.find().count() > MAX_COMMANDS) {
 				var commandToRemove = OldCommands.findOne({}, {sort: {time: 1}});
 				console.log("Removing old: " + commandToRemove);
 				OldCommands.remove(commandToRemove);
-			}
+			}*/
 			console.log("Removed: " + currentCommand);
 		}
 
@@ -55,16 +63,58 @@ var processQueue = function() {
 		}
 
 		Aux.upsert({_id:'currentCommand'}, {$set:{current:currentCommand ? currentCommand._id : ""}});
+  }
+  else if (mode == ModeEnum.DEMOCRACY) {
+   // Use democracyi
+  if(newCommands.length < 1) {
+    Meteor.call('stop');
+  }
+   var commands = {}
+   var remove = [];
+   newCommands.each(function(c){
+     remove.push(c._id);
+     if (c.name in commands) {
+       commands[c.name] = 1;
+     }
+     else {commands[c.name] = commands[c.name] + 1;
+     }
+   });
+  keysSorted = Object.keys(commands).sort(function(a,b){return commands[b]-commands[a]});
+  console.log("democracy chose : " + keysSorted[0].command);
+  Meteor.call("processCommand", keysSorted[0].command);
+  // Remove new commands
+  remove.each(function(r){
+    Commands.remove(r);
+  });
+  }
 };
 
 // -- constants --
 
 // how often to issue a new command in ms
-COMMAND_INTERVAL = 1000;
+COMMAND_INTERVAL = 1000; // DEFAULT
+
+Meteor.methods({
+  changeMode : function(newMode) {
+    console.log(newMode);
+    console.log(mode);
+    if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
+      mode = ModeEnum.DEMOCRACY;
+      COMMAND_INTERVAL = 5000;
+      Meteor.clearInterval(timerId);
+      timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
+    }
+    if (newMode == "Default" && mode != ModeEnum.DEFAULT) {
+      mode = ModeEnum.DEFAULT;
+      COMMAND_INTERVAL = 1000;
+      Meteor.clearInterval(timerId);
+      timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
+    }
+  }
+});
 
 
 if (Meteor.isServer){
-
     Meteor.startup(function(){
         timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     });
@@ -74,34 +124,40 @@ if (Meteor.isServer){
 
 //var Pusher = Meteor.require('pusher');
 
-
+// file scope
 var pubnub = Meteor.require("pubnub").init({
     publish_key   : "pub-c-015aeef8-c80f-44cc-8021-68b5296297fb",
     subscribe_key : "sub-c-261b8d52-1543-11e4-8bd3-02ee2ddab7fe"
 });
 
+var Fiber = Meteor.require('fibers');
 
 
 Meteor.startup(function() {
 
-
     if( Aux.findOne('server') )
     {
 
-//        var message = { "some" : "data" };
-//        pubnub.publish({
-//            channel   : 'my_channel',
-//            message   : message,
-//            callback  : function(e) { console.log( "SUCCESS!", e ); },
-//            error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
-//        });
+
+    } else {
+        // starting in client mode (Aka the thing that runs
+
+        pubnub.subscribe({
+            channel  : 'drone',
+            callback : function(message) {
 
 
-//        Pusher.url = "http://3851f071c179b8816524:c3336a8c1c792c5e57cc@api.pusherapp.com/apps/83143";
-//
-//        Pusher['test_channel'].trigger('my_event', {
-//            message: 'hello world'
-//        });
+                new Fiber(function() {
+                    Commands.insert(message);
+                }).run();
+
+
+
+
+//                console.log( " > ", message );
+            }
+        });
+
     }
 
 });

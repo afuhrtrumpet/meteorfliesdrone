@@ -8,11 +8,16 @@
 </body>
 
 <template name="main">
+    {{#if instanceIsServer}}
+    {{> serverWarning}}
+    {{/if}}
 	{{> loginButtons}}
 	{{#if userLoggedIn}}
 		<div class="col-xs-12 col-md-8">
 			{{> buttons}}
-			{{> adminPanel}}
+			{{#if isAdmin}}
+				{{> adminPanel}}
+			{{/if}}
 		</div>
 		<div class="col-xs-12 col-md-4">
 			{{> commandList}}
@@ -20,14 +25,13 @@
 	{{/if}}
 </template>
 
-<template name="buttons">
-	<div class="row text-center">
-		{{#each options}}
-			<div class="col-xs-4 col-md-4 top-buffer">
-				<i class="fa {{icon}} fa-5x"></i>
-			</div>
-		{{/each}}
-	</div>
+<template name="serverWarning">
+    <div class="row text-center">
+        <h1>This is the Local Server!</h1>
+        <p>This meteor instance connects to the drone on local wifi!  A browser window is not needed to run!</p>
+    </div>
+    <br>
+    <br>
 </template>
 
 <template name="nav">
@@ -57,9 +61,4 @@
 		{{/each}}
 	</ul>
 	{{tickNow}}
-</template>
-
-<template name="adminPanel">
-	<button class="btn btn-primary" id="takeoff">Start</button><br>
-	<button class="btn btn-danger" id="land">Land</button>
 </template>

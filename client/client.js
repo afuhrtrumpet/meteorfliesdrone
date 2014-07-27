@@ -1,29 +1,10 @@
-Template.buttons.options = [
-{
-	name: "Counterclockwise",
-	icon: "fa-rotate-left"
-},
-{
-	name: "Forward",
-	icon: "fa-chevron-circle-up"
-},
-{
-	name: "Clockwise",
-	icon: "fa-rotate-right"
-},
-{
-	name: "Left",
-	icon: "fa-chevron-circle-left"
-},
-{
-	name: "Back",
-	icon: "fa-chevron-circle-down"
-},
-{
-	name: "Right",
-	icon: "fa-chevron-circle-right"
-}
-];
+Template.buttons.events({
+    'click i':function(e) {
+
+        // this.name is the name as set in the array above
+        Meteor.call('pressButton', this.name, Meteor.userId());
+    }
+});
 
 //Placeholder, remove once we have actual data
 Template.commandList.commands = function() {
@@ -66,20 +47,18 @@ Template.commandList.tickNow = function() {
 }
 
 Template.commandList.username = function(userId) {
-	return Meteor.users.findOne(userId).emails[0].address;
+	return Meteor.user().username;
 };
 
 Template.commandList.currentCommand = function() {
 	var selected = Aux.findOne('currentCommand').current;
-			return this._id == selected	? "currentCommand" : "";
-		
+	return this._id == selected	? "currentCommand" : "";
 };
-
 Template.buttons.events({
     'click i':function(e) {
 
         // this.name is the name as set in the array above
-        Meteor.call('pressButton', this.name, Meteor.userId());
+        Meteor.call('pressButton', this.name);
     }
 });
 
@@ -90,7 +69,13 @@ Template.adminPanel.events({
 
 	'click #land': function() {
 		Meteor.call('land', this.name);
-	}
+	},
+  'click #modeDemocracy' : function() {
+    Meteor.call('changeMode', 'Democracy');
+  },
+  'click #modeDefault' : function() {
+    Meteor.call('changeMode:', 'Default');
+  }
 });
 
 Template.main.userLoggedIn = function () {
