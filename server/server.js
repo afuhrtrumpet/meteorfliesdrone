@@ -1,3 +1,11 @@
+// Mode enum
+var ModeEnum = {
+  DEMOCRACY : 0,
+  ANARCHY : 1,
+  DEFAULT = 2
+};
+
+var mode = ModeEnum.DEFAULT;
 // file scope
 var timerId;
 
@@ -8,7 +16,7 @@ var mostRecentCommand;
 
 // file scope
 var processQueue = function() {
-
+  if (mode == ModeEnum.DEFAULT) {
     // the now of this tick
     var now = new Date().getTime();
 
@@ -46,15 +54,31 @@ var processQueue = function() {
 		} else {
 			Meteor.call('stop');
 		}
+  }
+  else if (mode == ModeEnum.DEMOCRACY) {
+   // Use democracy
+  }
 };
 
 // -- constants --
 
 // how often to issue a new command in ms
-COMMAND_INTERVAL = 1000;
+COMMAND_INTERVAL = 1000; // DEFAULT
+
+Meteor.methods({
+  changeMode : function(newMode) {
+    if (newMode == "Democracy") {
+      mode = ModeEnum.DEMOCRACY;
+      COMMAND_INTERVAL = 5000;
+    }
+    if (newMode == "Default") {
+      mode = ModeEnum.DEFAULT;
+      COMMAND_INTERVAL = 1000;
+    }
+  }
+});
 
 if (Meteor.isServer){
-
     Meteor.startup(function(){
         timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
     });

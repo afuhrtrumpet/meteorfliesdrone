@@ -78,7 +78,13 @@ Template.adminPanel.events({
 
 	'click #land': function() {
 		Meteor.call('land', this.name);
-	}
+	},
+  'click #modeDemocracy' : function() {
+    Meteor.call('modeChange', 'Democracy');
+  },
+  'click #modeDefault' : function() {
+    Meteor.call('modeChange', 'Default');
+  }
 });
 
 Template.main.userLoggedIn = function () {
