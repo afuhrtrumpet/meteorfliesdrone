@@ -68,6 +68,9 @@
 
 <template name="modeHeading">
 <h1>Current mode is {{mode}}</h1>
+{{#if timeLeft}}
+<h3>Time Until Next Input: {{timeLeft}}</h3>
+{{/if}}
 </template>
 
 <template name="commandList">

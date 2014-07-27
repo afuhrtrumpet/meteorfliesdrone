@@ -1,3 +1,5 @@
+var currentTime;
+
 Template.main.democracy = function() {
 	var mode = Aux.findOne("Mode");
 	console.log(mode);
@@ -17,6 +19,20 @@ Template.modeHeading.mode = function() {
 	}
 };
 
+Template.modeHeading.timeLeft = function() {
+	var mode = Aux.findOne("Mode");
+	if (mode && mode.name == "Democracy") {
+		var startTime = Aux.findOne("democracyStart");
+		var currentTime = Aux.findOne("currentTime");
+		if (startTime && currentTime) {
+			var endTime = 5000 + startTime.time;
+			if (endTime > currentTime.time)
+				return endTime - currentTime.time;
+		}
+	}
+	return false;
+};
+
 var graphData = {
 	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "Counterclockwise"],
 	datasets: [{
@@ -28,6 +44,7 @@ var graphData = {
 var barChart;
 
 Deps.autorun(function() {
+	currentTime = Date.now();
 	var mode = Aux.findOne("Mode");
 	$('#barGraph').attr('hidden', !mode || mode.name != "Democracy");
 	var votes = Votes.find().fetch();
@@ -56,7 +73,7 @@ Template.buttons.events({
 
 	'mouseup i': function(e) {
 		$(e.target).removeClass("clicked");
-        Meteor.call('pressButton', this.name);
+        Meteor.call('pressButton', this.name, Meteor.userId());
 	}
 });
 
