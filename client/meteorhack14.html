@@ -1,52 +1,65 @@
 <head>
-  <title>meteorhack14</title>
+	<title>meteorhack14</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 
 <body>
-{{> nav}}
-<div class="col-md-8">
-	{{> buttons}}
-</div>
-<div class="col-md-4">
-	{{> commandList}}
-</div>
+	{{> main}}
 </body>
 
+<template name="main">
+	{{> loginButtons}}
+	{{#if userLoggedIn}}
+		<div class="col-xs-12 col-md-8">
+			{{> buttons}}
+		</div>
+		<div class="col-xs-12 col-md-4">
+			{{> commandList}}
+		</div>
+		{{> adminPanel}}
+	{{/if}}
+</template>
+
 <template name="buttons">
-<div class="row">
-	{{#each options}}
-	<div class="col-md-4">
-		<i class="fa {{icon}} fa-5x"></i>
+	<div class="row text-center">
+		{{#each options}}
+			<div class="col-xs-4 col-md-4 top-buffer">
+				<i class="fa {{icon}} fa-5x"></i>
+			</div>
+		{{/each}}
 	</div>
-	{{/each}}
-</div>
 </template>
 
 <template name="nav">
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Twitch Flies Drone</a>
-    </div>
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Twitch Flies Drone</a>
+			</div>
 
-	</div><!-- /.container-fluid -->
-</nav>
+		</div><!-- /.container-fluid -->
+	</nav>
 </template>
 
 <template name="commandList">
-<ul class="commandList">
-	{{#each commands}}
-	<li>
-	{{this}}
-	</li>
-	{{/each}}
-</ul>
-    {{tickNow}}
+	<ul class="commandList">
+		{{#each commands}}
+			<li>
+				{{this}}
+			</li>
+		{{/each}}
+	</ul>
+	{{tickNow}}
+</template>
+
+<template name="adminPanel">
+	<button class="btn btn-primary" id="takeoff">Start</button><br>
+	<button class="btn btn-danger" id="land">Land</button>
 </template>
