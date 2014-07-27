@@ -67,7 +67,25 @@ var processQueue = function() {
   }
   else if (mode == ModeEnum.DEMOCRACY) {
    // Use democracyi
-  Votes.update({},{$set: {vote:0}});
+       Votes.remove({});
+      Votes.insert({
+        name : "Forward",
+        vote: 0});
+      Votes.insert({
+        name: "Back",
+        vote: 0});
+      Votes.insert({
+        name: "Left",
+        vote: 0});
+      Votes.insert({
+        name :"Right",
+        vote: 0});
+      Votes.insert({
+        name : "Clockwise",
+        vote: 0});
+      Votes.insert({
+        name : "Counterclockwise",
+        vote: 0});
   console.log(newCommands.length);
   if(newCommands.length < 1) {
     Meteor.call('stop');
@@ -112,7 +130,7 @@ Meteor.methods({
     console.log(newMode);
     console.log(mode);
     if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
-      Votes.remove({});
+       Votes.remove({});
       Votes.insert({
         name : "Forward",
         vote: 0});
@@ -131,7 +149,7 @@ Meteor.methods({
       Votes.insert({
         name : "Counterclockwise",
         vote: 0});
-      mode = ModeEnum.DEMOCRACY;
+     mode = ModeEnum.DEMOCRACY;
       COMMAND_INTERVAL = 5000;
       Meteor.clearInterval(timerId);
       timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
