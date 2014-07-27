@@ -4,28 +4,32 @@ var IMPACT_VALUE = 0.3;
 Meteor.startup(function() {
     var client = arDrone.createClient();
 
-    Meteor.methods({
-        takeoff: function() {
-            // Only call drone commands if we are on the "server" instance
-            if( Aux.findOne('server') )
-            {
+
+
+
+
+    if( Aux.findOne('server') ) {
+        // josh's computer
+
+        Meteor.methods({
+            takeoff: function() {
+                // Only call drone commands if we are on the "server" instance
+
                 console.log("Taking off");
                 client.takeoff();
-            }
-        },
 
-        land: function() {
-            if( Aux.findOne('server') )
-            {
+            },
+
+            land: function() {
+
                 console.log("Landing");
                 client.stop();
                 client.land();
-            }
-        },
 
-        processCommand: function(cmd) {
-            if( Aux.findOne('server') )
-            {
+            },
+
+            processCommand: function(cmd) {
+
                 console.log("Command is: " + cmd);
                 client.stop();
                 switch(cmd.toLowerCase()) {
@@ -54,14 +58,92 @@ Meteor.startup(function() {
                         console.log("Going counter clockwise");
                         break;
                 }
-            }
-        },
 
-        stop: function() {
-            if( Aux.findOne('server') )
-            {
+            },
+
+            stop: function() {
                 client.stop();
             }
-        }
-    });
+
+        });
+    } else {
+
+        Meteor.methods({
+            takeoff: function() {
+                pubnub.publish({
+                    channel   : 'drone_commands',
+                    message   : {m:'takeoff'},
+                    callback  : function(e) { console.log( "SUCCESS!", e ); },
+                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+                });
+            },
+
+            land: function() {
+
+                pubnub.publish({
+                    channel   : 'drone_commands',
+                    message   : {m:'land'},
+                    callback  : function(e) { console.log( "SUCCESS!", e ); },
+                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+                });
+
+            },
+
+            processCommand: function(cmd) {
+
+                pubnub.publish({
+                    channel   : 'drone_commands',
+                    message   : {m:'processCommand', p:cmd},
+                    callback  : function(e) { console.log( "SUCCESS!", e ); },
+                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+                });
+            },
+
+            stop: function() {
+                pubnub.publish({
+                    channel   : 'drone_commands',
+                    message   : {m:'stop'},
+                    callback  : function(e) { console.log( "SUCCESS!", e ); },
+                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+                });
+            }
+
+        });
+
+    }
+});
+
+
+
+// file scope
+var pubnub = Meteor.require("pubnub").init({
+    publish_key   : "pub-c-015aeef8-c80f-44cc-8021-68b5296297fb",
+    subscribe_key : "sub-c-261b8d52-1543-11e4-8bd3-02ee2ddab7fe"
+});
+
+var Fiber = Meteor.require('fibers');
+
+
+Meteor.startup(function() {
+
+
+    if( Aux.findOne('server') ) {
+
+        pubnub.subscribe({
+            channel  : 'drone_commands',
+            callback : function(message) {
+
+                console.log(message);
+
+                new Fiber(function() {
+                    Meteor.call(message.m, message.p);
+                }).run();
+
+//                console.log( " > ", message );
+            }
+        });
+
+    }
+
+
 });

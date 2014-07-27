@@ -14,24 +14,9 @@ Meteor.startup(function () {
             var o = {
                 time: new Date().getTime(),
                 command: name,
-								userId: Meteor.userId()
+                userId: Meteor.userId()
             };
-
-
-            if( Aux.findOne('server') ) {
-                // insert directly, skip pubnub
-                Commands.insert(o);
-            } else {
-
-                pubnub.publish({
-                    channel   : 'drone',
-                    message   : o,
-                    callback  : function(e) { console.log( "SUCCESS!", e ); },
-                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
-                });
-            }
-
-            
+            Commands.insert(o);
         },
 
         erase : function()
