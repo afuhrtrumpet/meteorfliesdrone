@@ -37,6 +37,10 @@ Meteor.startup(function () {
 						OldCommands.find().fetch().each(function(doomed) {
 							OldCommands.remove(doomed._id);
 						});
+
+            DemocracyCommands.find().fetch().each(function(doomed) {
+              DemocracyCommands.remove(doomed._id);
+            });
         },
 
         setServer : function(val)

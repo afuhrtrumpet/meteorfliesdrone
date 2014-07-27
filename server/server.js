@@ -152,6 +152,7 @@ Meteor.methods({
       COMMAND_INTERVAL = 1000;
       Meteor.clearInterval(timerId);
       timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
+      Meteor.call('erase');
     }
   },
   getMode : function() {
