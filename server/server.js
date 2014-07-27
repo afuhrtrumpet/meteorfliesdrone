@@ -28,8 +28,8 @@ var processQueue = function() {
 //    var remove = [];
 
     // process every command in the collection
-    newCommands.each(function(c){
-        console.log(c);
+    //newCommands.each(function(c){
+     //   console.log(c);
 
 //        remove.push(c._id);
     });
@@ -57,32 +57,35 @@ var processQueue = function() {
   }
   else if (mode == ModeEnum.DEMOCRACY) {
    // Use democracyi
+  console.log(newCommands.length);
   if(newCommands.length < 1) {
     Meteor.call('stop');
   }
+  else {
    var commands = {}
    var remove = [];
    newCommands.each(function(c){
      remove.push(c._id);
-     if (c.name in commands) {
-       commands[c.name] = 1;
+     if (!(c.command in commands)) {
+       commands[c.command] = 1;
      }
-     else {commands[c.name] = commands[c.name] + 1;
+     else {commands[c.command] = commands[c.command] + 1;
      }
    });
   var sort_array = [];
   for (var key in commands) {
     sort_array.push({key:key, value:commands[key]});
   }
-  sort_array.sort(function(x,y){ return x.value - y.value});
+  sort_array.sort(function(y,x){ return x.value - y.value});
   item = sort_array[0].key;
+  console.log("sortaray: "+JSON.stringify(sort_array));
   console.log("democracy chose : " + item);
   Meteor.call("processCommand", item);
   // Remove new commands
   remove.each(function(r){
     Commands.remove(r);
   });
-  
+  }
   }
 };
 
