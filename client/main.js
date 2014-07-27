@@ -10,3 +10,11 @@ Template.main.isAdmin = function () {
 Accounts.ui.config({
 	passwordSignupFields: 'USERNAME_ONLY'
 });
+
+Template.main.instanceIsServer = function () {
+    if(Aux.findOne('server')){
+        return true;
+    } else {
+        return false;
+    }
+};
