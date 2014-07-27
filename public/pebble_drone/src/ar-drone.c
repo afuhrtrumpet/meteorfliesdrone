@@ -10,6 +10,7 @@ enum {
   X_AXIS_DOWN = 0x1,
   Y_AXIS_UP = 0x2,
   Y_AXIS_DOWN = 0x03,
+  SEE_COMMANDS = 0x05,
 };
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -42,11 +43,22 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   app_message_outbox_send();
 }
 
+static void select_long_click_handler(ClickRecognizerRef recognizer, void *context) {
+  int message = SEE_COMMANDS;
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
+  Tuplet value = TupletInteger(0, message);
+  dict_write_tuplet(iter, &value);
+  app_message_outbox_send();
+}
+
 static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
   window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
+  window_long_click_subscribe(BUTTON_ID_SELECT, 0, select_long_click_handler, NULL);
 }
+
 void out_sent_handler(DictionaryIterator* sent, void *context) {
   // outgoing message delivered
   APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message sent!");
