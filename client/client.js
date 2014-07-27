@@ -37,7 +37,16 @@ Template.buttons.events({
   //        name :this.name
   //      },
  //       {$inc : {vote : 1}},function(err,c){console.log(this.name+"  "+c);});
-    }
+    },
+
+	'mousedown i': function(e) {
+		console.log($(e.target));
+		$(e.target).addClass("clicked");
+	},
+
+	'mouseup i': function(e) {
+		$(e.target).removeClass("clicked");
+	}
 });
 
 //Placeholder, remove once we have actual data
