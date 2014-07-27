@@ -64,11 +64,11 @@ var bindMeteorCalls = function() {
                         console.log("Going right");
                         break;
                     case "up":
-                        client.right(IMPACT_VALUE);
+                        client.up(IMPACT_VALUE);
                         console.log("Going up");
                         break;
                     case "down":
-                        client.right(IMPACT_VALUE);
+                        client.down(IMPACT_VALUE);
                         console.log("Going down");
                         break;
                     case "clockwise":

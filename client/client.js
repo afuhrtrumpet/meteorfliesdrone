@@ -38,8 +38,41 @@ Template.buttons.events({
 
 	'mouseup i': function(e) {
 		$(e.target).removeClass("clicked");
-        Meteor.call('pressButton', this.name);
-	}
+//        Meteor.call('pressButton', this.name);
+
+        if( this.name == "Forward")
+        {
+            Meteor.call('processCommand', 'forward');
+        }
+
+        if( this.name == "Back")
+        {
+            Meteor.call('processCommand', 'back');
+        }
+
+        if( this.name == "Left")
+        {
+            Meteor.call('processCommand', 'left');
+        }
+
+        if( this.name == "Right")
+        {
+            Meteor.call('processCommand', 'right');
+        }
+
+        if( this.name == "Clockwise")
+        {
+            Meteor.call('processCommand', 'clockwise');
+        }
+
+        if( this.name == "Counterclockwise")
+        {
+            Meteor.call('processCommand', 'counterclockwise');
+        }
+
+        
+
+    }
 });
 
 //Placeholder, remove once we have actual data
