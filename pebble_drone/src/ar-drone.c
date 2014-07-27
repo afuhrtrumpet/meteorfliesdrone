@@ -15,10 +15,10 @@ enum {
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   if (axis == 0) {
     axis = 1;
-    text_layer_set_text(top_layer, "X-Axis");
+    text_layer_set_text(top_layer, "Y-Axis");
   } else {
     axis = 0;
-    text_layer_set_text(top_layer, "Y-Axis");
+    text_layer_set_text(top_layer, "X-Axis");
   }
 }
 
@@ -76,9 +76,9 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
 
   top_layer = text_layer_create((GRect) { .origin = { 0, 20 }, .size = { bounds.size.w, 50 } });
-  text_layer_set_text(top_layer, "X - Axis");
-  text_layer_set_alignment(top_layer, GTextAlignmentCenter);
-  text_layer_set_font(top_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+  text_layer_set_text(top_layer, "X-Axis");
+  text_layer_set_text_alignment(top_layer, GTextAlignmentCenter);
+  text_layer_set_font(top_layer, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
   layer_add_child(window_layer, text_layer_get_layer(top_layer));
 }
 
