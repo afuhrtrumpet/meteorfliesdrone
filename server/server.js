@@ -60,3 +60,10 @@ if (Meteor.isServer){
     });
 }
 
+
+
+Pusher = Meteor.require('pusher');
+
+Meteor.startup(function() {
+
+});
