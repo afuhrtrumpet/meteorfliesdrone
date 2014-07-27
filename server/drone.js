@@ -72,6 +72,10 @@ var bindMeteorCalls = function() {
                         break;
                 }
 
+                Meteor.setTimeout(function(){
+                    client.stop();
+                    console.log('autostop');
+                }, 1000);
             },
 
             stop: function() {
