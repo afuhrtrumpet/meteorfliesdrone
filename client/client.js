@@ -1,6 +1,6 @@
 Template.buttons.options = [
 {
-	name: "Clockwise",
+	name: "Counterclockwise",
 	icon: "fa-rotate-left"
 },
 {
@@ -8,7 +8,7 @@ Template.buttons.options = [
 	icon: "fa-chevron-circle-up"
 },
 {
-	name: "Counterclockwise",
+	name: "Clockwise",
 	icon: "fa-rotate-right"
 },
 {
@@ -35,11 +35,7 @@ Template.commandList.commands = [
 Template.buttons.events({
     'click i':function(e) {
 
-        // pull the name as set in the array above
-        var o = {
-            button:this.name
-        };
-
-        Commands.insert( o );
+        // this.name is the name as set in the array above
+        Meteor.call('pressButton', this.name);
     }
 });
