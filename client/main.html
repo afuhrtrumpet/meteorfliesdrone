@@ -15,16 +15,19 @@
 	{{#if userLoggedIn}}
 	<div class="container">
 		<div class="col-xs-12 col-md-8" id="buttonView">
-			{{> buttons}}
-			{{#if isAdmin}}
-			{{> adminPanel}}
-			{{/if}}
+			<div class="innerContainer">
+				{{> modeHeading}}
+				{{> buttons}}
+				{{#if isAdmin}}
+				{{> adminPanel}}
+				{{/if}}
+			</div>
 		</div>
 		<div class="col-xs-12 col-md-4" id="commandsView">
-			<!--{{#if democracy}}-->
-			<canvas id="barGraph" height="300" hidden></canvas>
-			<!--{{/if}}-->
-			{{> commandList}}
+			<div class="innerContainer">
+				<canvas id="barGraph" height="300" hidden></canvas>
+				{{> commandList}}
+				</div>
 		</div>
 	</div>
 	{{else}}
@@ -49,7 +52,7 @@
 </template>
 
 <template name="nav">
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar navbar-inverse" role="navigation">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -61,6 +64,10 @@
 
 		</div><!-- /.container-fluid -->
 	</nav>
+</template>
+
+<template name="modeHeading">
+<h1>Current mode is {{mode}}</h1>
 </template>
 
 <template name="commandList">

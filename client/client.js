@@ -8,6 +8,15 @@ Template.main.democracy = function() {
 	}
 };
 
+Template.modeHeading.mode = function() {
+	var mode = Aux.findOne("Mode");
+	if (mode) {
+		return mode.name;
+	} else {
+		return "Default";
+	}
+};
+
 var graphData = {
 	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "Counterclockwise"],
 	datasets: [{
