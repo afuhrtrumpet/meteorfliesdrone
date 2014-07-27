@@ -8,7 +8,7 @@
 <div class="col-xs-12 col-md-8">
 	{{> buttons}}
 </div>
-<div class="col-xs-12 col-md-4">
+<div class="col-xs-12 col-md-4 hidden-xs">
 	{{> commandList}}
 </div>
 </body>
@@ -16,7 +16,7 @@
 <template name="buttons">
 <div class="row text-center">
 	{{#each options}}
-	<div class="col-xs-4 col-md-4">
+	<div class="col-xs-4 col-md-4 top-buffer">
 		<i class="fa {{icon}} fa-5x"></i>
 	</div>
 	{{/each}}
