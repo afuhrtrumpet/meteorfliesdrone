@@ -70,6 +70,7 @@ var pubnub = Meteor.require("pubnub").init({
     subscribe_key : "sub-c-261b8d52-1543-11e4-8bd3-02ee2ddab7fe"
 });
 
+var Fiber = Meteor.require('fibers');
 
 
 Meteor.startup(function() {
@@ -85,7 +86,13 @@ Meteor.startup(function() {
             channel  : 'drone',
             callback : function(message) {
 
-                Commands.insert(message);
+
+                new Fiber(function() {
+                    Commands.insert(message);
+                }).run();
+
+
+
 
 //                console.log( " > ", message );
             }
