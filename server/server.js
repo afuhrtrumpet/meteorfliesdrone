@@ -23,62 +23,52 @@ var processQueue = function() {
 
     var newCommands = Commands.find({time:{$gt:lastTick}}).fetch();
 
-
-    // track ids we are about to delete
-//    var remove = [];
-
     // process every command in the collection
     newCommands.each(function(c){
         console.log(c);
-
-//        remove.push(c._id);
     });
 
 
-//    remove.each(function(r){
-//        Commands.remove(r);
-//    });
-
     lastTick = now;
 
-  if (mode == ModeEnum.DEFAULT) {
-		if (mostRecentCommand) {
-			Commands.remove(mostRecentCommand);
-			console.log("Removed: " + mostRecentCommand);
-		}
+    if (mode == ModeEnum.DEFAULT) {
+        if (mostRecentCommand) {
+            Commands.remove(mostRecentCommand);
+            console.log("Removed: " + mostRecentCommand);
+        }
 
-		mostRecentCommand = Commands.findOne({}, {sort: {time: 1}});
-		if (mostRecentCommand) {
-			console.log("Processing: " + mostRecentCommand.command);
-			Meteor.call('processCommand', mostRecentCommand.command);
-		} else {
-			Meteor.call('stop');
-		}
-  }
-  else if (mode == ModeEnum.DEMOCRACY) {
-   // Use democracyi
-  if(newCommands.length < 1) {
-    Meteor.call('stop');
-  }
-   var commands = {}
-   var remove = [];
-   newCommands.each(function(c){
-     remove.push(c._id);
-     if (c.name in commands) {
-       commands[c.name] = 1;
-     }
-     else {commands[c.name] = commands[c.name] + 1;
-     }
-   });
-  keysSorted = Object.keys(list).sort(function(a,b){return list[b]-list[a]});
-  console.log("democracy chose : " + keysSorted[0].command);
-  Meteor.call("processCommand", keysSorted[0].command);
-  // Remove new commands
-  remove.each(function(r){
-    Commands.remove(r);
-  });
-  
-  }
+        mostRecentCommand = Commands.findOne({}, {sort: {time: 1}});
+        if (mostRecentCommand) {
+            console.log("Processing: " + mostRecentCommand.command);
+            Meteor.call('processCommand', mostRecentCommand.command);
+        } else {
+            Meteor.call('stop');
+        }
+    }
+    else if (mode == ModeEnum.DEMOCRACY) {
+        // Use democracyi
+        if(newCommands.length < 1) {
+            Meteor.call('stop');
+        }
+        var commands = {}
+        var remove = [];
+        newCommands.each(function(c){
+            remove.push(c._id);
+            if (c.name in commands) {
+                commands[c.name] = 1;
+            }
+            else {commands[c.name] = commands[c.name] + 1;
+            }
+        });
+        keysSorted = Object.keys(list).sort(function(a,b){return list[b]-list[a]});
+        console.log("democracy chose : " + keysSorted[0].command);
+        Meteor.call("processCommand", keysSorted[0].command);
+        // Remove new commands
+        remove.each(function(r){
+            Commands.remove(r);
+        });
+
+    }
 };
 
 // -- constants --
@@ -126,29 +116,20 @@ var Fiber = Meteor.require('fibers');
 
 Meteor.startup(function() {
 
-    if( Aux.findOne('server') )
-    {
+    pubnub.subscribe({
+        channel  : 'drone',
+        callback : function(message) {
 
 
-    } else {
-        // starting in client mode (Aka the thing that runs
-
-        pubnub.subscribe({
-            channel  : 'drone',
-            callback : function(message) {
-
-
-                new Fiber(function() {
-                    Commands.insert(message);
-                }).run();
-
-
+            new Fiber(function() {
+                Commands.insert(message);
+            }).run();
 
 
 //                console.log( " > ", message );
-            }
-        });
+        }
+    });
 
-    }
+
 
 });

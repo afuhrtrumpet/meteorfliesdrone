@@ -17,15 +17,21 @@ Meteor.startup(function () {
 								userId: Meteor.userId()
             };
 
-//            Commands.insert(o);
 
-            pubnub.publish({
-                channel   : 'drone',
-                message   : o,
-                callback  : function(e) { console.log( "SUCCESS!", e ); },
-                error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
-            });
+            if( Aux.findOne('server') ) {
+                // insert directly, skip pubnub
+                Commands.insert(o);
+            } else {
 
+                pubnub.publish({
+                    channel   : 'drone',
+                    message   : o,
+                    callback  : function(e) { console.log( "SUCCESS!", e ); },
+                    error     : function(e) { console.log( "FAILED! RETRY PUBLISH!", e ); }
+                });
+            }
+
+            
         },
 
         erase : function()
