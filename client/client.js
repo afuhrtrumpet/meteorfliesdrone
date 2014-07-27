@@ -84,3 +84,12 @@ Template.adminPanel.events({
 Template.main.userLoggedIn = function () {
 		return 1 || Meteor.userId();
 };
+
+
+Template.main.instanceIsServer = function () {
+    if(Aux.findOne('server')){
+        return true;
+    } else {
+        return false;
+    }
+};

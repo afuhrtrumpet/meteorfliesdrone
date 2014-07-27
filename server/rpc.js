@@ -17,6 +17,15 @@ Meteor.startup(function () {
                 Commands.remove(doomed._id);
             });
 
+        },
+
+        setServer : function(val)
+        {
+            if( val ) {
+                Aux.insert({server:true, _id:'server'});
+            } else {
+                Aux.remove('server');
+            }
         }
 
     });
