@@ -67,6 +67,7 @@ var processQueue = function() {
   }
   else if (mode == ModeEnum.DEMOCRACY) {
    // Use democracyi
+  Votes.update({},{vote:0});
   console.log(newCommands.length);
   if(newCommands.length < 1) {
     Meteor.call('stop');
@@ -96,8 +97,6 @@ var processQueue = function() {
   remove.each(function(r){
     Commands.remove(r);
   });
-  console.log(JSON.stringify(Votes.find().fetch()));
-  Votes.update({},{vote:0});
   }
   }
 };
