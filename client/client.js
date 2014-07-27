@@ -1,3 +1,9 @@
+Deps.autorun(function() {
+	var commandList = document.getElementById('commandList');
+	if (commandList)
+		commandList.scrollTop = commandList.scrollHeight;
+});
+
 Template.buttons.events({
     'click i':function(e) {
 

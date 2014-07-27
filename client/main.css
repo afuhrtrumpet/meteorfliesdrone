@@ -5,15 +5,17 @@
 	bottom: 20px;
 }
 
-.commandList {
+#commandList {
 	width: 100%;
 	list-style-type: none;
 	list-style-position: none;
 	margin: 0;
 	padding: 0;
+	height: 250px;
+	overflow: scroll;
 }
 
-.commandList li {
+#commandList li {
 	list-style-position: inside;
 	margin: 0;
 	padding: 0;
@@ -23,11 +25,11 @@
 	background-color: #D44 !important;
 }
 
-.commandList li:nth-child(odd) {
+#commandList li:nth-child(odd) {
 	background-color: #AAA;
 }
 
-.commandList li:nth-child(even) {
+#commandList li:nth-child(even) {
 	background-color: #888;
 }
 
