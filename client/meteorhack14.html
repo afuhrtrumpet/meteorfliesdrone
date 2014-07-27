@@ -16,7 +16,9 @@
 		<div class="col-xs-12 col-md-4">
 			{{> commandList}}
 		</div>
-		{{> adminPanel}}
+		<div class="col-md-12">
+			{{> adminPanel}}
+		</div>
 	{{/if}}
 </template>
 
@@ -52,7 +54,7 @@
 	<ul class="commandList">
 		{{#each commands}}
 			<li>
-				{{this}}
+			{{command}} by {{username userId}}
 			</li>
 		{{/each}}
 	</ul>

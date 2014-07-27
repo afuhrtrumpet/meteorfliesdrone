@@ -28,6 +28,8 @@ Template.buttons.options = [
 //Placeholder, remove once we have actual data
 Template.commandList.commands = function() {
 
+		return Commands.find({}, {sort: {time: 1}});
+/*
     // how far back the command log goes
     var commandHistoryTime = 8000;
 
@@ -51,7 +53,7 @@ Template.commandList.commands = function() {
     else
     {
         return [];
-    }
+    }*/
 };
 
 Template.commandList.tickNow = function() {
@@ -63,11 +65,15 @@ Template.commandList.tickNow = function() {
     return 0;
 }
 
+Template.commandList.username = function(userId) {
+	return Meteor.users.findOne(userId).emails[0];
+};
+
 Template.buttons.events({
     'click i':function(e) {
 
         // this.name is the name as set in the array above
-        Meteor.call('pressButton', this.name);
+        Meteor.call('pressButton', this.name, Meteor.userId());
     }
 });
 

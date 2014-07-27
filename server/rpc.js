@@ -1,11 +1,12 @@
 Meteor.startup(function () {
     Meteor.methods({
 
-        pressButton : function(name) {
+        pressButton : function(name, userId) {
 
             var o = {
                 time: new Date().getTime(),
-                command: name
+                command: name,
+								userId: userId
             };
 
             Commands.insert(o);
