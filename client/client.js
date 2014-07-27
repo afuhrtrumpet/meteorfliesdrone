@@ -1,7 +1,7 @@
 Template.main.democracy = function() {
-	Meteor.call('getMode', function(err, response) {
-		return response;
-	});
+	var mode = Aux.findOne("Mode");
+	console.log(mode);
+	return mode.name == "Democracy";
 };
 
 var graphData = {
@@ -20,7 +20,7 @@ Deps.autorun(function() {
 
 	if ($("#barGraph").length > 0) {
 		var ctx = $("#barGraph").get(0).getContext("2d");
-		var barChart = new Chart(ctx).Bar(data, options);
+		var barChart = new Chart(ctx).Bar(graphData, {});
 	}
 });
 

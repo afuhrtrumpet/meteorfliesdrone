@@ -7,6 +7,7 @@ var ModeEnum = {
 };
 
 var mode = ModeEnum.DEFAULT;
+Aux.upsert("Mode", {$set: {"name": "Default"}});
 // file scope
 var timerId;
 
@@ -107,6 +108,7 @@ COMMAND_INTERVAL = 1000; // DEFAULT
 
 Meteor.methods({
   changeMode : function(newMode) {
+		Aux.upsert("Mode", {$set: {"name": newMode}});
     console.log(newMode);
     console.log(mode);
     if (newMode == "Democracy" && mode != ModeEnum.DEMOCRACY) {
