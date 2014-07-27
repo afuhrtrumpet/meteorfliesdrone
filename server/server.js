@@ -43,11 +43,11 @@ if (mode == ModeEnum.DEFAULT){
 		if (currentCommand) {
 			console.log("Processing: " + currentCommand.command);
 			Meteor.call('processCommand', currentCommand.command);
+			Aux.upsert({_id:'currentCommand'}, {$set:{current:currentCommand ? currentCommand._id: ""}});
 		} else {
 			Meteor.call('stop');
 		}
 
-		Aux.upsert({_id:'currentCommand'}, {$set:{current:currentCommand ? currentCommand._id : ""}});
   }
   else if (mode == ModeEnum.DEMOCRACY) {
    var newCommands = DemocracyCommands.find({time:{$gt:lastTick}}).fetch();
@@ -97,11 +97,12 @@ if (mode == ModeEnum.DEFAULT){
   item = sort_array[0].key;
   console.log("sortaray: "+JSON.stringify(sort_array));
   console.log("democracy chose : " + item);
-  Commands.insert({
+  var newCommand = Commands.insert({
     time : new Date().getTime(),
     command : item,
-    userId : this.userId
   });
+	console.log("Just added: " + newCommand);
+	Aux.upsert({_id:'currentCommand'}, {$set:{current:newCommand ? newCommand : ""}});
   Meteor.call("processCommand", item);
   // Remove new commands
   remove.each(function(r){

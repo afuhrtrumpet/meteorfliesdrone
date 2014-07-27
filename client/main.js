@@ -1,5 +1,5 @@
 Template.main.userLoggedIn = function () {
-		return 1 || Meteor.userId();
+		return Meteor.userId();
 };
 
 Template.main.isAdmin = function () {

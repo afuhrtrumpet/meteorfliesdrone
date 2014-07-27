@@ -1,3 +1,16 @@
+body {
+	background: #87CEEB url('images/background.jpg') no-repeat fixed center;
+}
+
+.navbar-default {
+	padding-right: 20%;
+}
+
+#buttonView, #commandsView {
+	background-color:rgba(238, 238, 238, .75);
+	border-radius: 25px;
+};
+
 .top-buffer { margin-top:20px; }
 
 .footer {

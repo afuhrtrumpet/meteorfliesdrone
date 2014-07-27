@@ -16,16 +16,20 @@ var graphData = {
 	}]
 };
 
+var barChart;
+
 Deps.autorun(function() {
 	var votes = Votes.find().fetch();
-	for (var i in votes) {
-		graphData.datasets[0].data[graphData.labels.indexOf(votes[i].name)] = votes[i].vote;
+	if (barChart) {
+		for (var i in votes) {
+			barChart.datasets[0].bars[graphData.labels.indexOf(votes[i].name)].value = votes[i].vote;
+		}
+		barChart.update();
 	}
-
-	if ($("#barGraph").length > 0) {
+	else if ($("#barGraph").length > 0 && !barChart) {
 		console.log(graphData);
 		var ctx = $("#barGraph").get(0).getContext("2d");
-		var barChart = new Chart(ctx).Bar(graphData, {});
+		barChart = new Chart(ctx).Bar(graphData, {});
 	}
 });
 
@@ -95,6 +99,29 @@ Template.commandList.currentCommand = function() {
 	return this._id == selected	? "currentCommand" : "";
 };
 
+Template.commandList.commandIcon = function() {
+	switch (this.command) {
+		case "Counterclockwise":
+			return "fa-rotate-left";
+			break;
+		case "Forward":
+			return "fa-chevron-circle-up";
+			break;
+		case "Clockwise":
+			return "fa-rotate-right";
+			break;
+		case "Left":
+			return "fa-chevron-circle-left";
+			break;
+		case "Back":
+			return "fa-chevron-circle-down";
+			break;
+		case "Right":
+			return "fa-chevron-circle-right";
+			break;
+	}
+}
+
 Template.adminPanel.events({
 	'click #takeoff': function() {
 		Meteor.call('takeoff', this.name);
@@ -110,7 +137,3 @@ Template.adminPanel.events({
     Meteor.call('changeMode', 'Default');
   }
 });
-
-Template.main.userLoggedIn = function () {
-		return 1 || Meteor.userId();
-};

@@ -8,23 +8,27 @@
 </body>
 
 <template name="main">
-    {{#if instanceIsServer}}
-    {{> serverWarning}}
-    {{/if}}
-	{{> loginButtons}}
+	{{> nav}}
+	{{#if instanceIsServer}}
+	{{> serverWarning}}
+	{{/if}}
 	{{#if userLoggedIn}}
-		<div class="col-xs-12 col-md-8">
+	<div class="container">
+		<div class="col-xs-12 col-md-8" id="buttonView">
 			{{> buttons}}
 			{{#if isAdmin}}
-				{{> adminPanel}}
+			{{> adminPanel}}
 			{{/if}}
 		</div>
-		<div class="col-xs-12 col-md-4">
+		<div class="col-xs-12 col-md-4" id="commandsView">
 			{{#if democracy}}
-				<canvas id="barGraph" height="300"></canvas>
+			<canvas id="barGraph" height="300"></canvas>
 			{{/if}}
 			{{> commandList}}
 		</div>
+	</div>
+	{{else}}
+	{{> landingPage}}
 	{{/if}}
 </template>
 
@@ -37,19 +41,23 @@
     <br>
 </template>
 
+<template name="landingPage">
+<div class="jumbotron">
+	<h1>Welcome to Meteor Flies Drone</h1>
+	<p>Please log in or create an account to begin.</p>
+</div>
+</template>
+
 <template name="nav">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Twitch Flies Drone</a>
+				<a class="navbar-brand" href="#">Meteor Flies Drone</a>
 			</div>
+			<ul class = "nav navbar-nav navbar-right">
+				<li>{{> loginButtons}}</li>
+			</ul>
 
 		</div><!-- /.container-fluid -->
 	</nav>
@@ -59,7 +67,12 @@
 	<ul id = "commandList">
 		{{#each commands}}
 			<li class={{currentCommand}}>
-			{{command}} by {{username userId}}
+			<i class="fa {{commandIcon}}"></i>
+			{{#if userId}}
+		 	by {{username userId}}
+			{{else}}
+			chosen by democracy
+			{{/if}}
 			</li>
 		{{/each}}
 	</ul>
