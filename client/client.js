@@ -1,14 +1,18 @@
 Template.main.democracy = function() {
 	var mode = Aux.findOne("Mode");
 	console.log(mode);
-	return mode.name == "Democracy";
+	if( mode && mode.name ) {
+		return mode.name == "Democracy";
+	} else {
+		return false; // someting weng wrong juse use this
+	}
 };
 
 var graphData = {
-	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "CouterClockwise"],
+	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "Counterclockwise"],
 	datasets: [{
 		label: "Votes",
-		data: [0, 0, 0, 0, 0]
+		data: [0, 0, 0, 0, 0, 0]
 	}]
 };
 
