@@ -96,6 +96,7 @@ var processQueue = function() {
   remove.each(function(r){
     Commands.remove(r);
   });
+  console.log(JSON.stringify(Votes.find().fetch()));
   Votes.update({},{vote:0});
   }
   }
