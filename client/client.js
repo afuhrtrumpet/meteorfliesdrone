@@ -26,13 +26,12 @@ Deps.autorun(function() {
 
 Template.buttons.events({
     'click i':function(e) {
-
         // this.name is the name as set in the array above
         Meteor.call('pressButton', this.name, Meteor.userId());
-        var vote = Votes.upsert({
-          name :this.name
-        },
-        {$inc : {vote : 1}});
+  //      Votes.update({
+  //        name :this.name
+  //      },
+ //       {$inc : {vote : 1}},function(err,c){console.log(this.name+"  "+c);});
     }
 });
 
