@@ -31,22 +31,36 @@ Template.commandList.commands = function() {
     // how far back the command log goes
     var commandHistoryTime = 8000;
 
-    var filterAfter = Aux.findOne('tickNow').time - commandHistoryTime;
+    var aux = Aux.findOne('tickNow');
 
-    // select commands that are newer than a timestamp, and sort so most recent are on the bottom
-    var commands = Commands.find({time:{$gt:filterAfter}}, {sort: {time: 1}}).fetch();
+    if( aux && aux.time )
+    {
+        var filterAfter = Aux.findOne('tickNow').time - commandHistoryTime;
 
-    var results = [];
+        // select commands that are newer than a timestamp, and sort so most recent are on the bottom
+        var commands = Commands.find({time:{$gt:filterAfter}}, {sort: {time: 1}}).fetch();
 
-    commands.each(function(c){
-        results.push(JSON.stringify(c));
-    });
+        var results = [];
 
-    return results;
+        commands.each(function(c){
+            results.push(JSON.stringify(c));
+        });
+
+        return results;
+    }
+    else
+    {
+        return [];
+    }
 };
 
 Template.commandList.tickNow = function() {
-    return Aux.findOne('tickNow').time;
+    var o = Aux.findOne('tickNow');
+
+    if( o && o.time )
+        return o.time;
+
+    return 0;
 }
 
 Template.buttons.events({

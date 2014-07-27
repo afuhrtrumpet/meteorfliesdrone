@@ -1,0 +1,17 @@
+{
+  "uuid": "b19e7b00-e530-4848-b778-69ab1716a7b8",
+  "shortName": "ar-drone",
+  "longName": "ar-drone",
+  "companyName": "lolwut",
+  "versionCode": 1,
+  "versionLabel": "1.0.0",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "pokemon": 0
+  },
+  "resources": {
+    "media": []
+  }
+}

@@ -7,3 +7,6 @@
 
 # Stevie Jobs!!!
 .DS_Store
+
+# Pebble build remov
+pebble_drone/build/
