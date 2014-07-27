@@ -1,4 +1,10 @@
-/* CSS declarations go here */
+.top-buffer { margin-top:20px; }
+
+.footer {
+	position: fixed;
+	bottom: 20px;
+}
+
 .commandList {
 	border: 1px solid black;
 	width: 100%;
@@ -12,4 +18,3 @@
 	background-color: #888;
 }
 
-.top-buffer { margin-top:20px; }
