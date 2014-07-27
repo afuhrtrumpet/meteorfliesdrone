@@ -1,4 +1,4 @@
-var SITE_URL = '192.168.43.1:3000';
+var SITE_URL = '192.168.2.94:3000';
 window.__meteor_runtime_config__ = {
   ROOT_URL : SITE_URL,
   DDP_DEFAULT_CONNECTION_URL : SITE_URL,
@@ -79,6 +79,7 @@ var Commands = new Meteor.Collection('Commands');
 Pebble.addEventListener("ready",
     function(e) {
         console.log("Hello world! - Sent from your javascript application.");
+        console.log(Commands.find().count());
     }
 );
 
@@ -86,35 +87,38 @@ Pebble.addEventListener("appmessage",
   function(e) {
     if (e.payload.pokemon == 5) {
      x = Commands.find();
-    console.log(JSON.stringify(x));
+    //console.log(JSON.stringify(x));
+    console.log(Commands.find().count());
     }
     else {
-    var o = {
-      time : new Date().getTime(),
-      command : ''
-    };
+   // var o = {
+   //   time : new Date().getTime(),
+   //   command : ''
+   // };
     switch(e.payload.pokemon) {
 
       case 0:
         // x axis up
-        o['command'] = 'Forward';
+        //o['command'] = 'Forward';
+        Meteor.call('pressButton', 'Forward');
+        console.log("Forward!!!!");
         break;
       case 1:
         // x axis down
-        o['command'] = 'Backward';
+        Meteor.call('pressButton','Backward');
         break;
       case 2:
         // y axi up
-        o['command'] = 'Left';
+        Meteor.call('pressButton', 'Left');
         break;
       case 3:
         // y axis down
-        o['command'] = 'Right';
+        Meteor.call('pressButton', 'Right');
         break;
       default:
         console.log("ERRROROROROROROROROROROROROOROROROR!!!!!");
     }
-    Commands.insert(o);
+   // Commands.insert(o);
   }
   }
     //console.log(JSON.stringify(e.payload.pokemon));
