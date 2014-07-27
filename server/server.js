@@ -71,7 +71,7 @@ var processQueue = function() {
      }
    });
   var sort_array = [];
-  fo (var key in commands) {
+  for (var key in commands) {
     sort_array.push({key:key, value:commands[key]});
   }
   sort_array.sort(function(x,y){ return x.value - y.value});
