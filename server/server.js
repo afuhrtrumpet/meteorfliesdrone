@@ -22,6 +22,7 @@ var processQueue = function() {
     var now = new Date().getTime();
 
     Aux.upsert({_id: 'tickNow'}, {$set: { time:now }});
+if (mode == ModeEnum.DEFAULT){
 
     var newCommands = Commands.find({time:{$gt:lastTick}}).fetch();
 
@@ -43,7 +44,6 @@ var processQueue = function() {
 
     lastTick = now;
 
-  if (mode == ModeEnum.DEFAULT) {
 		if (currentCommand) {
 			Commands.remove(currentCommand);
 			OldCommands.insert(currentCommand);
@@ -66,7 +66,10 @@ var processQueue = function() {
 		Aux.upsert({_id:'currentCommand'}, {$set:{current:currentCommand ? currentCommand._id : ""}});
   }
   else if (mode == ModeEnum.DEMOCRACY) {
-   // Use democracyi
+   var newCommands = DemocracyCommands.find({time:{$gt:lastTick}}).fetch();
+   lastTick = now;
+
+    // Use democracyi
        Votes.remove({});
       Votes.insert({
         name : "Forward",
@@ -110,10 +113,15 @@ var processQueue = function() {
   item = sort_array[0].key;
   console.log("sortaray: "+JSON.stringify(sort_array));
   console.log("democracy chose : " + item);
+  Commands.insert({
+    time : new Date().getTime(),
+    command : item,
+    userId : this.userId
+  });
   Meteor.call("processCommand", item);
   // Remove new commands
   remove.each(function(r){
-    Commands.remove(r);
+    DemocracyCommands.remove(r);
   });
   }
   }
@@ -201,7 +209,12 @@ Meteor.startup(function() {
 
 
                 new Fiber(function() {
-                    Commands.insert(message);
+                if( Aux.findOne('Mode') == "Default") {
+                  Commands.insert(message);
+                } else {
+                  DemocracyCommands.insert(message);
+                }
+
                 }).run();
 
 
