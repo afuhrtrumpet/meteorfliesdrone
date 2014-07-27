@@ -160,3 +160,4 @@ Meteor.methods({
     return mode;
   }
 });
+
