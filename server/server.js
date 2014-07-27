@@ -4,6 +4,8 @@ var timerId;
 // file scope
 var lastTick = 0;
 
+var mostRecentCommand;
+
 // file scope
 var processQueue = function() {
 
@@ -31,6 +33,16 @@ var processQueue = function() {
 //    });
 
     lastTick = now;
+
+		if (mostRecentCommand) {
+			Commands.remove(mostRecentCommand);
+			console.log("Removed: " + mostRecentCommand);
+		}
+
+		mostRecentCommand = Commands.findOne({}, {sort: {time: 1}});
+		if (mostRecentCommand) {
+			console.log("Processing: " + mostRecentCommand.command);
+		}
 };
 
 // -- constants --
