@@ -15,7 +15,7 @@ Template.buttons.events({
 //Placeholder, remove once we have actual data
 Template.commandList.commands = function() {
 
-		return OldCommands.find({}, {sort: {time: 1}}).fetch().concat(Commands.find({}, {sort: {time: 1}, limit: 20}).fetch());
+		return Commands.find({}, {sort: {time: -1}}).fetch().concat(OldCommands.find({}, {sort: {time: -1}}).fetch());
 /*
     // how far back the command log goes
     var commandHistoryTime = 8000;
