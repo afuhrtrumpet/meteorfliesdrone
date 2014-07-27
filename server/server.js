@@ -67,7 +67,7 @@ var processQueue = function() {
   }
   else if (mode == ModeEnum.DEMOCRACY) {
    // Use democracyi
-  Votes.update({},{vote:0});
+  Votes.update({},{$set: {vote:0}});
   console.log(newCommands.length);
   if(newCommands.length < 1) {
     Meteor.call('stop');

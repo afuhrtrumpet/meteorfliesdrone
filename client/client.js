@@ -5,20 +5,21 @@ Template.main.democracy = function() {
 };
 
 var graphData = {
-	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "Couterclockwise"],
-	datasets: {
+	labels: ["Forward", "Back", "Left", "Right", "Clockwise", "CouterClockwise"],
+	datasets: [{
 		label: "Votes",
 		data: [0, 0, 0, 0, 0]
-	}
+	}]
 };
 
 Deps.autorun(function() {
 	var votes = Votes.find().fetch();
 	for (var i in votes) {
-		graphData.datasets.data[graphData.labels.indexOf(votes[i].name)] = votes[i].vote;
+		graphData.datasets[0].data[graphData.labels.indexOf(votes[i].name)] = votes[i].vote;
 	}
 
 	if ($("#barGraph").length > 0) {
+		console.log(graphData);
 		var ctx = $("#barGraph").get(0).getContext("2d");
 		var barChart = new Chart(ctx).Bar(graphData, {});
 	}
