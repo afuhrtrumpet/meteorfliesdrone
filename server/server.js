@@ -170,7 +170,7 @@ if (Meteor.isServer) {
             timerId = Meteor.setInterval(processQueue, COMMAND_INTERVAL);
 						Meteor.setInterval(function() {
 							Aux.upsert({"_id": "currentTime"}, {$set: {time: new Date().getTime()}});
-						}, 47);
+						}, 102);
         });
     }
 }
